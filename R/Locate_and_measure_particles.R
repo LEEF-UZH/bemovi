@@ -95,10 +95,12 @@ cmd <- switch(
 
 system(cmd)
 
-organise_particle_data(
-  to.data = to.data, 
-  particle.data.folder = particle.data.folder,
-  pixel_to_scale = pixel_to_scale
-)
+if ( length(list.files( file.path(to.data, particle.data.folder) ) ) > 0 ) {
+  organise_particle_data(
+    to.data = to.data, 
+    particle.data.folder = particle.data.folder,
+    pixel_to_scale = pixel_to_scale
+  )
+}
 
 }
