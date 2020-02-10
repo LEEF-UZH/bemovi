@@ -4,12 +4,19 @@
 \alias{link_particles}
 \title{Function to link the particle coordinates through time}
 \usage{
-link_particles(to.data = par_to.data(),
+link_particles(
+  to.data = par_to.data(),
   particle.data.folder = par_particle.data.folder(),
   trajectory.data.folder = par_trajectory.data.folder(),
-  linkrange = par_linkrange(), disp = par_disp(), start_vid = 1,
-  memory = par_memory(), to.particlelinker = par_to.particlelinker(),
-  pixel_to_scale = par_pixel_to_scale(), fps = par_fps())
+  linkrange = par_linkrange(),
+  disp = par_disp(),
+  start_vid = 1,
+  memory = par_memory(),
+  to.particlelinker = par_to.particlelinker(),
+  pixel_to_scale = par_pixel_to_scale(),
+  fps = par_fps(),
+  java.path = par_java.path()
+)
 }
 \arguments{
 \item{to.data}{path to the working directory}

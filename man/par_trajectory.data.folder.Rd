@@ -6,3 +6,6 @@
 \usage{
 par_trajectory.data.folder(value)
 }
+\description{
+parameter trajectory.data.folder
+}

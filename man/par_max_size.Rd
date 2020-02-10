@@ -6,3 +6,6 @@
 \usage{
 par_max_size(value)
 }
+\description{
+parameter max_size
+}

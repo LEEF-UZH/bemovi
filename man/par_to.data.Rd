@@ -6,3 +6,6 @@
 \usage{
 par_to.data(value)
 }
+\description{
+parameter to.data
+}

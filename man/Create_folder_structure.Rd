@@ -4,7 +4,8 @@
 \alias{Create_folder_structure}
 \title{Create folder structure based on parameter}
 \usage{
-Create_folder_structure(to.data = par_to.data(),
+Create_folder_structure(
+  to.data = par_to.data(),
   video.description.folder = par_video.description.folder(),
   raw.video.folder = par_raw.video.folder(),
   particle.data.folder = par_particle.data.folder(),
@@ -12,7 +13,8 @@ Create_folder_structure(to.data = par_to.data(),
   temp.overlay.folder = par_temp.overlay.folder(),
   overlay.folder = par_overlay.folder(),
   merged.data.folder = par_merged.data.folder(),
-  ijmacs.folder = par_ijmacs.folder())
+  ijmacs.folder = par_ijmacs.folder()
+)
 }
 \arguments{
 \item{to.data}{path to the working directory}

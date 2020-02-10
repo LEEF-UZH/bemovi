@@ -6,3 +6,6 @@
 \usage{
 par_particle.data.folder(value)
 }
+\description{
+parameter particle.data.folder
+}

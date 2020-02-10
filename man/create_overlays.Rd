@@ -4,14 +4,21 @@
 \alias{create_overlays}
 \title{Function to create a new video with the extracted trajectories overlayed onto the original video}
 \usage{
-create_overlays(to.data = par_to.data(),
+create_overlays(
+  to.data = par_to.data(),
   merged.data.folder = par_merged.data.folder(),
   raw.video.folder = par_raw.video.folder(),
   temp.overlay.folder = par_temp.overlay.folder(),
-  overlay.folder = par_overlay.folder(), width = par_width(),
-  height = par_height(), difference.lag = par_difference.lag(),
-  type = "traj", predict_spec = FALSE, contrast.enhancement = 0,
-  IJ.path = par_IJ.path(), memory = par_memory())
+  overlay.folder = par_overlay.folder(),
+  width = par_width(),
+  height = par_height(),
+  difference.lag = par_difference.lag(),
+  type = "traj",
+  predict_spec = FALSE,
+  contrast.enhancement = 0,
+  IJ.path = par_IJ.path(),
+  memory = par_memory()
+)
 }
 \arguments{
 \item{to.data}{path to the working directory}

@@ -6,3 +6,6 @@
 \usage{
 par_thresholds(value)
 }
+\description{
+parameter thresholds
+}

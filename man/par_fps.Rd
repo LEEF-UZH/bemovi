@@ -6,3 +6,6 @@
 \usage{
 par_fps(value)
 }
+\description{
+parameter fps
+}

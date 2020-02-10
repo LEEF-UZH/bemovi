@@ -6,3 +6,6 @@
 \usage{
 par_to.particlelinker(value)
 }
+\description{
+parameter to.particlelinker
+}

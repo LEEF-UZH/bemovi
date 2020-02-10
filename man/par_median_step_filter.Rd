@@ -6,3 +6,6 @@
 \usage{
 par_median_step_filter(value)
 }
+\description{
+parameter median_step_filter
+}

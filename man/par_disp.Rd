@@ -6,3 +6,6 @@
 \usage{
 par_disp(value)
 }
+\description{
+parameter disp
+}

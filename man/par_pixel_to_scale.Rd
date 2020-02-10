@@ -6,3 +6,6 @@
 \usage{
 par_pixel_to_scale(value)
 }
+\description{
+parameter pixel_to_scale
+}

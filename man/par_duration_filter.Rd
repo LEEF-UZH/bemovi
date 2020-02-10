@@ -6,3 +6,6 @@
 \usage{
 par_duration_filter(value)
 }
+\description{
+parameter duration_filter
+}

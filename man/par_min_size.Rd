@@ -6,3 +6,6 @@
 \usage{
 par_min_size(value)
 }
+\description{
+parameter min_size
+}

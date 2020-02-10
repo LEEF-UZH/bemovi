@@ -6,3 +6,6 @@
 \usage{
 par_linkrange(value)
 }
+\description{
+parameter linkrange
+}

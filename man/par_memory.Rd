@@ -6,3 +6,6 @@
 \usage{
 par_memory(value)
 }
+\description{
+parameter memory
+}

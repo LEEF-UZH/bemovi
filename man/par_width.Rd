@@ -6,3 +6,6 @@
 \usage{
 par_width(value)
 }
+\description{
+parameter width
+}

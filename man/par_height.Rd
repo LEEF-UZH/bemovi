@@ -6,3 +6,6 @@
 \usage{
 par_height(value)
 }
+\description{
+parameter height
+}

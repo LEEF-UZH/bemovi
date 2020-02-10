@@ -6,3 +6,6 @@
 \usage{
 par_ijmacs.folder(value)
 }
+\description{
+parameter ijmacs.folder
+}

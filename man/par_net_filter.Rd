@@ -6,3 +6,6 @@
 \usage{
 par_net_filter(value)
 }
+\description{
+parameter net_filter
+}

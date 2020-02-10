@@ -6,3 +6,6 @@
 \usage{
 par_temp.overlay.folder(value)
 }
+\description{
+parameter temp.overlay.folder
+}

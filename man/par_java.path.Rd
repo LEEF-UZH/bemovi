@@ -6,3 +6,6 @@
 \usage{
 par_java.path(value)
 }
+\description{
+parameter java.path
+}

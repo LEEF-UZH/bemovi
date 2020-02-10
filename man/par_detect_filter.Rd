@@ -6,3 +6,6 @@
 \usage{
 par_detect_filter(value)
 }
+\description{
+parameter detect_filter
+}

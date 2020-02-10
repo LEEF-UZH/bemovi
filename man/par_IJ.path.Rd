@@ -6,3 +6,6 @@
 \usage{
 par_IJ.path(value)
 }
+\description{
+parameter IJ.path
+}

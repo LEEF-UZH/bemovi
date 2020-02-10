@@ -6,3 +6,6 @@
 \usage{
 par_difference.lag(value)
 }
+\description{
+parameter difference.lag
+}

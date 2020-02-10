@@ -6,3 +6,6 @@
 \usage{
 par_merged.data.folder(value)
 }
+\description{
+parameter merged.data.folder
+}
