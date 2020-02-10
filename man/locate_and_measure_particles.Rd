@@ -15,7 +15,8 @@ locate_and_measure_particles(
   IJ.path = par_IJ.path(),
   memory = par_memory(),
   ijmacs.folder = par_ijmacs.folder(),
-  pixel_to_scale = par_pixel_to_scale()
+  pixel_to_scale = par_pixel_to_scale(),
+  java.path = par_java.path()
 )
 }
 \arguments{

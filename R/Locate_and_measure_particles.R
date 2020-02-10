@@ -32,7 +32,8 @@ locate_and_measure_particles <- function(
   IJ.path = par_IJ.path(), 
   memory = par_memory(),
   ijmacs.folder = par_ijmacs.folder(),
-  pixel_to_scale = par_pixel_to_scale()
+  pixel_to_scale = par_pixel_to_scale(),
+  java.path = par_java.path()
 ) {
   
   #ijmacs.folder<-NULL
@@ -59,48 +60,49 @@ locate_and_measure_particles <- function(
   # if (.Platform$OS.type == "windows") {
   dir.create(file.path(to.data, ijmacs.folder), showWarnings = FALSE)
   writeLines(text, con = file.path(to.data, ijmacs.folder, "Video_to_morphology_tmp.ijm")) #}
-# if (.Platform$OS.type == "unix") {
-#   dir.createfile.path(to.data, ijmacs.folder), showWarnings = FALSE)
-#   writeLines(text, con = paste(to.data, ijmacs.folder, "Video_to_morphology_tmp.ijm"))}
-
-## create directory to store Particle Analyzer data
+  # if (.Platform$OS.type == "unix") {
+  #   dir.createfile.path(to.data, ijmacs.folder), showWarnings = FALSE)
+  #   writeLines(text, con = paste(to.data, ijmacs.folder, "Video_to_morphology_tmp.ijm"))}
+  
+  ## create directory to store Particle Analyzer data
   dir.create(file.path(to.data, particle.data.folder), showWarnings = FALSE)
-
-## run to process video files by calling ImageJ
-
-cmd <- switch(
-  Sys.info()[['sysname']],
-  Window = paste0(
-    file.path( IJ.path ),
-    " -macro ",  file.path(to.data, ijmacs.folder, "Video_to_morphology_tmp.ijm")
-  ),
-  Linux  = paste0(
-    "java", 
-    " -Xmx", memory, "m ", 
-    " -jar ", file.path( IJ.path, "ij.jar"), 
-    " -ijpath ", IJ.path, 
-    " -macro '", file.path(to.data, ijmacs.folder, "Video_to_morphology_tmp.ijm"), "'"
-  ),
-  Darwin = paste0(
-    # "java", 
-    # " -Xmx", memory, "m ", 
-    # " -jar ", file.path( IJ.path, "ij.jar"), 
-    # " -ijpath ", IJ.path, 
-    file.path( IJ.path, "ImageJ-macosx"),
-    " --headless",
-    " -macro '", file.path(to.data, ijmacs.folder, "Video_to_morphology_tmp.ijm"), "'"
-  ),
-  stop( "Unsupported Platform!" )
-)
-
-system(cmd)
-
-if ( length(list.files( file.path(to.data, particle.data.folder) ) ) > 0 ) {
-  organise_particle_data(
-    to.data = to.data, 
-    particle.data.folder = particle.data.folder,
-    pixel_to_scale = pixel_to_scale
+  
+  ## run to process video files by calling ImageJ
+  if (!file.exists(file.path(java.path, "java"))) stop("Java path not found. Please specify path in global options.")
+  
+  cmd <- switch(
+    Sys.info()[['sysname']],
+    Window = paste0(
+      file.path( IJ.path ),
+      " -macro ",  file.path(to.data, ijmacs.folder, "Video_to_morphology_tmp.ijm")
+    ),
+    Linux  = paste0(
+      file.path(java.path, "java"), 
+      " -Xmx", memory, "m ", 
+      " -jar ", file.path( IJ.path, "ij.jar"), 
+      " -ijpath ", IJ.path, 
+      " -macro '", file.path(to.data, ijmacs.folder, "Video_to_morphology_tmp.ijm"), "'"
+    ),
+    Darwin = paste0(
+      # file.path(java.path, "java"), 
+      # " -Xmx", memory, "m ", 
+      # " -jar ", file.path( IJ.path, "ij.jar"), 
+      # " -ijpath ", IJ.path, 
+      file.path( IJ.path, "ImageJ-macosx"),
+      " --headless",
+      " -macro '", file.path(to.data, ijmacs.folder, "Video_to_morphology_tmp.ijm"), "'"
+    ),
+    stop( "Unsupported Platform!" )
   )
-}
-
+  
+  system(cmd)
+  
+  if ( length(list.files( file.path(to.data, particle.data.folder) ) ) > 0 ) {
+    organise_particle_data(
+      to.data = to.data, 
+      particle.data.folder = particle.data.folder,
+      pixel_to_scale = pixel_to_scale
+    )
+  }
+  
 }

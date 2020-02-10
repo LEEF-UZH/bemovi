@@ -17,7 +17,8 @@ check_threshold_values(
   difference.lag = par_difference.lag(),
   thresholds = par_thresholds(),
   IJ.path = par_IJ.path(),
-  memory = par_memory()
+  memory = par_memory(),
+  java.path = par_java.path()
 )
 }
 \arguments{

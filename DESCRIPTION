@@ -5,16 +5,18 @@ Description: An R and ImageJ based work flow to automatically measure behaviour
     subtraction, morphology extracted, and trajectories assembled through time from
     coordinate data. Abundance, morphology and behaviour can be summarized based on
     trajectory data.
-Version: 1.0.1
+Version: 1.0.2
 Author: Frank Pennekamp <Frank.Pennekamp@ieu.uzh.ch>, Owen Petchey
     <Owen.Petchey@ieu.uzh.ch>
 Maintainer: Frank Pennekamp <Frank.Pennekamp@ieu.uzh.ch>
 Imports:
     data.table,
     circular,
-    settings
+    settings,
+    yaml
 Depends:
     R (>= 3.0.2)
+Encoding: UTF-8
 License: CC BY-NC 4.0
 LazyData: true
 RoxygenNote: 7.0.2

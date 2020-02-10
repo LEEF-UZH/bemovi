@@ -23,7 +23,8 @@ check_threshold_values <- function(
   difference.lag = par_difference.lag(), 
   thresholds = par_thresholds(), 
   IJ.path = par_IJ.path(), 
-  memory = par_memory()
+  memory = par_memory(),
+  java.path = par_java.path()
 ) {
   
   video.dir <- file.path(to.data, raw.video.folder)
@@ -54,10 +55,18 @@ check_threshold_values <- function(
   if (.Platform$OS.type == "unix") {
     writeLines(text, con = file.path(to.data, ijmacs.folder, "Check_threshold_tmp.ijm"))}
   
+  if (!file.exists(file.path(java.path, "java"))) stop("Java path not found. Please specify path in global options.")
+  
   ## run to process video files by calling ImageJ
   if (.Platform$OS.type == "unix") 
-    cmd <- paste0("java -Xmx", memory, "m -jar ", IJ.path, "/ij.jar", " -ijpath ", IJ.path, " -macro ", "'",
-                  to.data,  ijmacs.folder, "Check_threshold_tmp.ijm'")
+    cmd <- paste0(
+      file.path(java.path, "java"),
+      "-Xmx", memory, 
+      "m -jar ", IJ.path, "/ij.jar", 
+      " -ijpath ", IJ.path, 
+      " -macro ", "'",
+      to.data,  ijmacs.folder, "Check_threshold_tmp.ijm'"
+    )
   if (.Platform$OS.type == "windows") 
    cmd <- paste0("\"", IJ.path,"\"", " -macro ","\"", paste0(gsub("/", "\\\\", paste0(to.data, ijmacs.folder))), "Check_threshold_tmp.ijm", "\"")
     
