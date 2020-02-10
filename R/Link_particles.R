@@ -31,7 +31,8 @@ link_particles <- function(
   memory = par_memory(),
   to.particlelinker = par_to.particlelinker(),
   pixel_to_scale = par_pixel_to_scale(),
-  fps = par_fps()
+  fps = par_fps(),
+  java.path = par_java.path()
 ) {
 
   #Slice<-to.particlelinker<-java.path<-pixel_to_scale<-fps<-NULL
@@ -72,8 +73,11 @@ link_particles <- function(
       
       ## run ParticleLinker
       if (.Platform$OS.type == "unix") {
+        
+        if (!file.exists(java.path)) stop("Java path not found. Please specify path in global options.")
+        
         cmd <- paste0(
-          "java",
+          java.path,
           " -Xmx", memory, "m",
           " -Dparticle.linkrange=", linkrange, 
           " -Dparticle.displacement=", disp, 
@@ -85,7 +89,7 @@ link_particles <- function(
       
       if (.Platform$OS.type == "windows") {
         
-        if (!exists("java.path")) stop("Java path not found. Please specify path in global options.")
+        if (!file.exists(java.path)) stop("Java path not found. Please specify path in global options.")
         
       # previously hardcoded as "C:/Progra~2/java/jre7/bin/javaw.exe"
        cmd <- paste0(java.path, " -Xmx", memory,"m -Dparticle.linkrange=", linkrange, " -Dparticle.displacement=", disp," -jar",
