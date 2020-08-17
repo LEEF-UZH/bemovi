@@ -43,11 +43,11 @@ locate_and_measure_particles <- function(
   ## copy master copy of ImageJ macro there for treatment
   ## if there is differencing (i.e., difference.lag>0)
   if (difference.lag > 0) {
-    text <- readLines(file.path(system.file(package = "bemovi"), "ImageJ_macros", "Video_to_morphology.ijm"))
+    text <- readLines(file.path(system.file(package = "bemovi.LEEF"), "ImageJ_macros", "Video_to_morphology.ijm"))
   }
   ## if there is no differencing (i.e., difference.lag==0)
   if (difference.lag == 0) {
-    text <- readLines(file.path(system.file(package = "bemovi"), "ImageJ_macros", "Video_to_morphology_no_differencing.ijm"))
+    text <- readLines(file.path(system.file(package = "bemovi.LEEF"), "ImageJ_macros", "Video_to_morphology_no_differencing.ijm"))
   }
   ## use regular expression to insert input & output directory as well as difference lag
   text[grep("video_input = ", text)] <- paste("video_input = ", "'", video.dir, "/';", sep = "")

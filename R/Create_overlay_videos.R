@@ -153,9 +153,9 @@ create_overlays <- function(
   
   ## copy master copy of ImageJ macro there for treatment
   if (.Platform$OS.type == "windows") 
-    text <- readLines(file.path(system.file(package = "bemovi"), "ImageJ_macros/Video_overlay.ijm"),warn = FALSE)
+    text <- readLines(file.path(system.file(package = "bemovi.LEEF"), "ImageJ_macros/Video_overlay.ijm"),warn = FALSE)
   if (.Platform$OS.type == "unix") 
-    text <- readLines(file.path(system.file(package = "bemovi"), "ImageJ_macros/Video_overlay.ijm"))
+    text <- readLines(file.path(system.file(package = "bemovi.LEEF"), "ImageJ_macros/Video_overlay.ijm"))
   
   text[grep("video_input = ", text)] <- paste("video_input = ", "'", file.path(to.data, raw.video.folder), "';", sep = "")
   text[grep("overlay_input = ", text)] <- paste("overlay_input = ", "'", file.path(to.data, temp.overlay.folder), "';", sep = "")

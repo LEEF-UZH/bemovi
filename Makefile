@@ -113,6 +113,11 @@ check: build-cran
 clean_check:
 	$(RM) -r ./../$(PKGNAME).Rcheck/
 
+drat: build
+	cd 
+	@Rscript -e "drat::insertPackage('./../$(PKGNAME)_$(PKGVERS).tar.gz', repodir = './../../drat/', commit = TRUE)"
+	cd ./../../drat/; git push origin gh-pages
+
 ####
 
 # check_rhub

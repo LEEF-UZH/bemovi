@@ -32,14 +32,14 @@ check_threshold_values <- function(
   dir.create(file.path(to.data, ijmacs.folder), showWarnings = FALSE)
   
   ## copy master copy of ImageJ macro there for treatment
-  text <- readLines(file.path(system.file(package = "bemovi"), "/", "ImageJ_macros", "Check_threshold.ijm"))
+  text <- readLines(file.path(system.file(package = "bemovi.LEEF"), "/", "ImageJ_macros", "Check_threshold.ijm"))
   
   ## if there is differencing (i.e., difference.lag>0)
   if (difference.lag > 0)
-    text <- readLines(file.path(system.file(package = "bemovi"), "/", "ImageJ_macros", "Check_threshold.ijm"))
+    text <- readLines(file.path(system.file(package = "bemovi.LEEF"), "/", "ImageJ_macros", "Check_threshold.ijm"))
   ## if there is no differencing (i.e., difference.lag==0)
   if (difference.lag == 0)
-    text <- readLines(file.path(system.file(package = "bemovi"), "/", "ImageJ_macros", "Check_threshold_no_differencing.ijm"))
+    text <- readLines(file.path(system.file(package = "bemovi.LEEF"), "/", "ImageJ_macros", "Check_threshold_no_differencing.ijm"))
   
   
   
