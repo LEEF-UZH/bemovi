@@ -178,16 +178,24 @@ create_overlays <- function(
   dir.create(file.path(to.data, overlay.folder), showWarnings = F)
   
   ## call IJ macro to merge original video with the trajectory data
-  if (.Platform$OS.type == "unix") 
-    cmd <- paste0(
-      "java -Xmx", memory, "m",
-      " -jar ", file.path(IJ.path, "ij.jar"), 
-      " -ijpath ", IJ.path, 
-      " -macro ", paste0("'", paste0(to.data, ijmacs.folder), "Video_overlay_tmp.ijm", "'"))
+  # if (.Platform$OS.type == "unix") 
+  #   cmd <- paste0(
+  #     "java -Xmx", memory, "m",
+  #     " -jar ", file.path(IJ.path, "ij.jar"), 
+  #     " -ijpath ", IJ.path, 
+  #     " -macro ", paste0("'", paste0(to.data, ijmacs.folder), "Video_overlay_tmp.ijm", "'"))
+  # 
+  # if (.Platform$OS.type == "windows") 
+  #   cmd <- paste0("\"", IJ.path, "\""," -macro ","\"", paste0(gsub("/", "\\\\", paste0(to.data, ijmacs.folder))), "Video_overlay_tmp.ijm", "\"")
+  # 
   
-  if (.Platform$OS.type == "windows") 
-    cmd <- paste0("\"", IJ.path, "\""," -macro ","\"", paste0(gsub("/", "\\\\", paste0(to.data, ijmacs.folder))), "Video_overlay_tmp.ijm", "\"")
-    
+  cmd <- paste0(
+    ij.bin(), 
+    " --headless",
+    " --ij2",
+    " -macro ", file.path( to.data, ijmacs.folder, "Video_overlay_tmp.ijm" )
+  )
+  
   ## run ImageJ macro
   system(cmd)
   

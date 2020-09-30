@@ -57,20 +57,28 @@ check_threshold_values <- function(
   
   if (!file.exists(file.path(java.path, "java"))) stop("Java path not found. Please specify path in global options.")
   
-  ## run to process video files by calling ImageJ
-  if (.Platform$OS.type == "unix") 
-    cmd <- paste0(
-      file.path(java.path, "java"),
-      "-Xmx", memory, 
-      "m -jar ", IJ.path, "/ij.jar", 
-      " -ijpath ", IJ.path, 
-      " -macro ", "'",
-      to.data,  ijmacs.folder, "Check_threshold_tmp.ijm'"
-    )
-  if (.Platform$OS.type == "windows") 
-   cmd <- paste0("\"", IJ.path,"\"", " -macro ","\"", paste0(gsub("/", "\\\\", paste0(to.data, ijmacs.folder))), "Check_threshold_tmp.ijm", "\"")
+  # ## run to process video files by calling ImageJ
+  # if (.Platform$OS.type == "unix") 
+  #   cmd <- paste0(
+  #     file.path(java.path, "java"),
+  #     "-Xmx", memory, 
+  #     "m -jar ", IJ.path, "/ij.jar", 
+  #     " -ijpath ", IJ.path, 
+  #     " -macro ", "'",
+  #     to.data,  ijmacs.folder, "Check_threshold_tmp.ijm'"
+  #   )
+  # if (.Platform$OS.type == "windows") 
+  #  cmd <- paste0("\"", IJ.path,"\"", " -macro ","\"", paste0(gsub("/", "\\\\", paste0(to.data, ijmacs.folder))), "Check_threshold_tmp.ijm", "\"")
+
+  cmd <- paste0(
+        ij.bin(),
+        " --mem ", memory, "m ",
+        " --headless",
+        " --ij2",
+        " -macro ", file.path( to.data, ijmacs.folder, "Check_threshold_tmp.ijm" )
+  )
     
-system(cmd)
+  system(cmd)
 } 
 
 

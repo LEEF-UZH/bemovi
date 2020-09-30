@@ -68,32 +68,40 @@ locate_and_measure_particles <- function(
   dir.create(file.path(to.data, particle.data.folder), showWarnings = FALSE)
   
   ## run to process video files by calling ImageJ
-  if (!file.exists(file.path(java.path, "java"))) stop("Java path not found. Please specify path in global options.")
+  # if (!file.exists(file.path(java.path, "java"))) stop("Java path not found. Please specify path in global options.")
   
-  cmd <- switch(
-    Sys.info()[['sysname']],
-    Window = paste0(
-      file.path( IJ.path ),
-      " -macro ",  file.path(to.data, ijmacs.folder, "Video_to_morphology_tmp.ijm")
-    ),
-    Linux  = paste0(
-      file.path(java.path, "java"), 
-      " -Xmx", memory, "m ", 
-      " -jar ", file.path( IJ.path, "ij.jar"), 
-      " -ijpath ", IJ.path, 
-      " -macro '", file.path(to.data, ijmacs.folder, "Video_to_morphology_tmp.ijm"), "'"
-    ),
-    Darwin = paste0(
-      # file.path(java.path, "java"), 
-      # " -Xmx", memory, "m ", 
-      # " -jar ", file.path( IJ.path, "ij.jar"), 
-      # " -ijpath ", IJ.path, 
-      file.path( IJ.path, "ImageJ-macosx"),
-      " --headless",
-      " -macro '", file.path(to.data, ijmacs.folder, "Video_to_morphology_tmp.ijm"), "'"
-    ),
-    stop( "Unsupported Platform!" )
-  )
+  # cmd <- switch(
+  #   Sys.info()[['sysname']],
+  #   Window = paste0(
+  #     file.path( IJ.path ),
+  #     " -macro ",  file.path(to.data, ijmacs.folder, "Video_to_morphology_tmp.ijm")
+  #   ),
+  #   Linux  = paste0(
+  #     file.path(java.path, "java"), 
+  #     " -Xmx", memory, "m ", 
+  #     " -jar ", file.path( IJ.path, "ij.jar"), 
+  #     " -ijpath ", IJ.path, 
+  #     " -macro '", file.path(to.data, ijmacs.folder, "Video_to_morphology_tmp.ijm"), "'"
+  #   ),
+  #   Darwin = paste0(
+  #     # file.path(java.path, "java"), 
+  #     # " -Xmx", memory, "m ", 
+  #     # " -jar ", file.path( IJ.path, "ij.jar"), 
+  #     # " -ijpath ", IJ.path, 
+  #     file.path( IJ.path, "ImageJ-macosx"),
+  #     " --headless",
+  #     " -macro '", file.path(to.data, ijmacs.folder, "Video_to_morphology_tmp.ijm"), "'"
+  #   ),
+  #   stop( "Unsupported Platform!" )
+  # )
+  
+  cmd <- paste0(
+        ij.bin(),
+        " --mem ", memory, "m ",
+        " --headless",
+        " --ij2",
+        " -macro '", file.path(to.data, ijmacs.folder, "Video_to_morphology_tmp.ijm"), "'"
+      )
   
   system(cmd)
   
