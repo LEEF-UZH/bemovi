@@ -87,7 +87,8 @@ clean_readme:
 
 docs:
 	Rscript -e "devtools::document(roclets = c('rd', 'collate', 'namespace', 'vignette'))"
-
+	Rscript -e "codemetar::write_codemeta()"
+	
 build:
 	cd ..;\
 	R CMD build $(PKGSRC)
@@ -95,7 +96,7 @@ build:
 ####
 
 build-cran:
-	cd ..;\
+	cd ".."; \
 	R CMD build $(PKGSRC)
 
 ####

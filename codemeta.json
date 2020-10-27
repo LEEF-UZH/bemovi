@@ -1,0 +1,134 @@
+{
+  "@context": [
+    "https://doi.org/10.5063/schema/codemeta-2.0",
+    "http://schema.org"
+  ],
+  "@type": "SoftwareSourceCode",
+  "identifier": "bemovi.LEEF",
+  "description": "An R and ImageJ based work flow to automatically measure behaviour\n    and morphology from videos. Moving individuals are identified by background\n    subtraction, morphology extracted, and trajectories assembled through time from\n    coordinate data. Abundance, morphology and behaviour can be summarized based on\n    trajectory data.",
+  "name": "bemovi.LEEF: BEMOVI, software for extracting BEhaviour and MOrphology from VIdeos",
+  "license": "https://spdx.org/licenses/CC-BY-NC-4.0",
+  "version": "1.0.11",
+  "programmingLanguage": {
+    "@type": "ComputerLanguage",
+    "name": "R",
+    "url": "https://r-project.org"
+  },
+  "runtimePlatform": "R version 4.0.3 (2020-10-10)",
+  "author": [
+    {
+      "@type": "Person",
+      "givenName": "Owen",
+      "familyName": "Petchey",
+      "email": "Owen.Petchey@ieu.uzh.ch"
+    }
+  ],
+  "contributor": {},
+  "copyrightHolder": {},
+  "funder": {},
+  "maintainer": [
+    {
+      "@type": "Person",
+      "givenName": "Frank",
+      "familyName": "Pennekamp",
+      "email": "Frank.Pennekamp@ieu.uzh.ch"
+    }
+  ],
+  "softwareSuggestions": [],
+  "softwareRequirements": [
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "data.table",
+      "name": "data.table",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=data.table"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "circular",
+      "name": "circular",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=circular"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "settings",
+      "name": "settings",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=settings"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "yaml",
+      "name": "yaml",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=yaml"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "R",
+      "name": "R",
+      "version": ">= 3.0.2"
+    }
+  ],
+  "codeRepository": "https://github.com/LEEF-UZH/bemovi",
+  "releaseNotes": "https://github.com/LEEF-UZH/bemovi/blob/master/NEWS.md",
+  "readme": "https://github.com/LEEF-UZH/bemovi/blob/LEEF/README.md",
+  "fileSize": "113.029KB",
+  "citation": [
+    {
+      "@type": "ScholarlyArticle",
+      "datePublished": "2015",
+      "author": [
+        {
+          "@type": "Person",
+          "givenName": "Frank",
+          "familyName": "Pennekamp"
+        },
+        {
+          "@type": "Person",
+          "givenName": "Nicolas",
+          "familyName": "Schtickzelle"
+        },
+        {
+          "@type": "Person",
+          "givenName": ["Owen", "L."],
+          "familyName": "Petchey"
+        }
+      ],
+      "name": "BEMOVI, software for extracting BEhaviour and MOrphology from VIdeos, illustrated with analyses of microbes",
+      "url": "http://onlinelibrary.wiley.com/doi/10.1002/ece3.1529/abstract",
+      "pagination": "Pages 2584-2595",
+      "isPartOf": {
+        "@type": "PublicationIssue",
+        "issueNumber": "13",
+        "datePublished": "2015",
+        "isPartOf": {
+          "@type": ["PublicationVolume", "Periodical"],
+          "volumeNumber": "5",
+          "name": "Ecology and Evolution"
+        }
+      }
+    }
+  ]
+}
