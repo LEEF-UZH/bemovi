@@ -197,7 +197,7 @@ create_overlays <- function(
   )
   
   ## run ImageJ macro
-  system(cmd)
+  system(cmd, timeout = par_timeout())
   
 #   ## delete temporary file after execution
 #   if (.Platform$OS.type == "windows") 

@@ -268,3 +268,12 @@ par_linkrange(1)
 #' @export
 par_disp <- par_template
 par_disp(10)
+
+# Timeout for system calls in seconds -------------------------------------
+
+#
+#' @name par_timeout
+#' @title parameter timeout if 0, no timeout
+#' @export
+par_timeout <- par_template
+par_timeout(0)

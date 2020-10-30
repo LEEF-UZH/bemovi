@@ -103,7 +103,7 @@ locate_and_measure_particles <- function(
         " -macro '", file.path(to.data, ijmacs.folder, "Video_to_morphology_tmp.ijm"), "'"
       )
   
-  system(cmd)
+  system(cmd, timeout = par_timeout())
   
   if ( length(list.files( file.path(to.data, particle.data.folder) ) ) > 0 ) {
     organise_particle_data(

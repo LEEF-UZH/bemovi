@@ -84,7 +84,7 @@ link_particles <- function(
           " -jar ", " \"", to.particlelinker, "/ParticleLinker.jar","\" ", "'", dir, "'", " \"", traj_out.dir,"/ParticleLinker_", 
                       all.files[j],"\""
         )
-        system(paste0(cmd, " \\&"))
+        system(paste0(cmd, " \\&"), timeout = par_timeout())
       }
       
       if (.Platform$OS.type == "windows") {
@@ -97,7 +97,7 @@ link_particles <- function(
                       gsub("/","\\\\", paste0(" ","\"" ,dir,"\"")),
                       gsub("/","\\\\", paste0(" ","\"", traj_out.dir, "/ParticleLinker_", all.files[j], "\"")))
        
-      system(cmd)
+      system(cmd, timeout = par_timeout())
       }
       
       #delete working dir

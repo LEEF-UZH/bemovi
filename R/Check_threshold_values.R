@@ -78,7 +78,7 @@ check_threshold_values <- function(
         " -macro ", file.path( to.data, ijmacs.folder, "Check_threshold_tmp.ijm" )
   )
     
-  system(cmd)
+  system(cmd, timeout = par_timeout())
 } 
 
 
