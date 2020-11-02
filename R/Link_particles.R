@@ -84,7 +84,7 @@ link_particles <- function(
           " -jar ", " \"", to.particlelinker, "/ParticleLinker.jar","\" ", "'", dir, "'", " \"", traj_out.dir,"/ParticleLinker_", 
                       all.files[j],"\""
         )
-        system(paste0(cmd, " \\&"), timeout = par_timeout())
+        system(cmd, timeout = par_timeout())  ## paste0(cmd, " \\&")
       }
       
       if (.Platform$OS.type == "windows") {
