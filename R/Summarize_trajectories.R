@@ -8,6 +8,8 @@
 #' @param merged.data.folder directory where the global database is saved
 #' @param write logical argument to indicate whether aggregated information should be saved to disk
 #' @param fps Frames Per Second of the video
+#' @param video.description.folder folder in which video descriptions are found
+#' @param video.description.file name of the video description file
 #' 
 #' @return returns a data.table with the aggregated morphology and movement information for each trajectory
 #' @import circular
@@ -19,7 +21,9 @@ summarize_trajectories <- function(
   write = FALSE, 
   to.data = par_to.data(), 
   merged.data.folder = par_merged.data.folder(),
-  fps = par_fps()
+  fps = par_fps(),
+  video.description.folder = par_video.description.folder(), 
+  video.description.file = par_video.description.file()
 ){
 
 #id_<-id<-Mean<-Area<-Perimeter<-Major<-Minor<-AR<-rel_angle<-fps<-net_disp<-gross_disp<-step_speed<-video.description.folder<-video.description.file<-NULL  

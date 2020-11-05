@@ -10,7 +10,9 @@ summarize_trajectories(
   write = FALSE,
   to.data = par_to.data(),
   merged.data.folder = par_merged.data.folder(),
-  fps = par_fps()
+  fps = par_fps(),
+  video.description.folder = par_video.description.folder(),
+  video.description.file = par_video.description.file()
 )
 }
 \arguments{
@@ -25,6 +27,10 @@ summarize_trajectories(
 \item{merged.data.folder}{directory where the global database is saved}
 
 \item{fps}{Frames Per Second of the video}
+
+\item{video.description.folder}{folder in which video descriptions are found}
+
+\item{video.description.file}{name of the video description file}
 }
 \value{
 returns a data.table with the aggregated morphology and movement information for each trajectory
