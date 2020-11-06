@@ -186,6 +186,21 @@ par_max_size <- par_template
 par_max_size(10000)
 #
 
+#' @name par_min_area
+#' @title parameter min_area
+#' @export
+par_min_area <- par_template
+par_min_area(250)
+#
+#' @name par_max_area
+#' @title parameter max_area
+#' @export
+par_max_area <- par_template
+par_max_area(50000)
+#
+
+
+
 #' @name par_pixel_to_scale
 #' @title parameter pixel_to_scale
 #' @export
