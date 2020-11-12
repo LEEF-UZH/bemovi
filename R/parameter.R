@@ -272,17 +272,27 @@ par_median_step_filter(NULL)
 par_memory <- par_template
 par_memory(512)
 #
+
 #' @name par_linkrange
 #' @title parameter linkrange 
 #' @export
 par_linkrange <- par_template
 par_linkrange(1)
 #
+
 #' @name par_disp
 #' @title parameter disp 
 #' @export
 par_disp <- par_template
 par_disp(10)
+
+#' @name par_disp
+#' @title parameter disp 
+#' @export
+par_extrapolation.factor <- par_template
+par_extrapolation.factor(13.84)
+
+
 
 # Timeout for system calls in seconds -------------------------------------
 

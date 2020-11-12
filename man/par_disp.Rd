@@ -2,10 +2,15 @@
 % Please edit documentation in R/parameter.R
 \name{par_disp}
 \alias{par_disp}
+\alias{par_extrapolation.factor}
 \title{parameter disp}
 \usage{
 par_disp(value)
+
+par_extrapolation.factor(value)
 }
 \description{
+parameter disp
+
 parameter disp
 }
