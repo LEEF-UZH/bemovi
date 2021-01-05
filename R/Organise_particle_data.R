@@ -21,15 +21,15 @@ organise_particle_data <- function(
   ## the macro file names
   all.files <- dir(path = IJ_output.dir, pattern = "ijout", full.names = TRUE)
   ijout.files <- all.files[grep("ijout", all.files)]
-  mylist <- lapply(ijout.files, fread, header = TRUE)
+  mylist <- lapply(ijout.files, data.table::fread, header = TRUE)
   mylist <- mylist[lapply(mylist,length) > 0]
-  dd <- rbindlist(mylist)
+  dd <- data.table::rbindlist(mylist)
   dd$file <- gsub(".ijout.txt", "", rep(dir(path = IJ_output.dir, pattern = "ijout"), lapply(mylist, nrow)))
   ## change column names because R is replacing missing header with X causing confusion with real X and Y positions
   old_names <- colnames(dd) 
   new_names <- c("obs", "Area", "Mean", "Min", "Max", "X", "Y", "Perimeter", "Major", "Minor", "Angle", "Circ.", "Slice", 
                  "AR", "Round", "Solidity", "file")
-  setnames(dd,old_names,new_names)
+  data.table::setnames(dd,old_names,new_names)
   
   morphology.data <- as.data.frame(dd)
   
@@ -39,6 +39,6 @@ organise_particle_data <- function(
   morphology.data$Major <- morphology.data$Major*pixel_to_scale
   morphology.data$Minor <-  morphology.data$Minor*pixel_to_scale
   
-  saveRDS(morphology.data, file = file.path(IJ_output.dir, "particle.rds"))
+  saveRDS(morphology.data, file = file.path(IJ_output.dir, par_particle()))
 } 
 

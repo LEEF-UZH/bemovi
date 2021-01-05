@@ -76,7 +76,7 @@ calculate_mvt <- function(
 
   trajectory.data <- merge(data_full,mvt_summary,by = c("id","frame"), all.x = TRUE)
 
-  saveRDS(trajectory.data, file = file.path(out.dir,"trajectory.rds"))
+  saveRDS(trajectory.data, file = file.path(out.dir,par_trajectory()))
 
 }
 

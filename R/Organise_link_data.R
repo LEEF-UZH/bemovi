@@ -18,9 +18,9 @@ organise_link_data <- function(
   # df <- data.frame(frame = numeric(), X = numeric(), Y = numeric(), trajectory = numeric(), file = character())
   files <- dir(here, pattern = ".ijout.txt", full.names = TRUE)
   
-  mylist <- lapply(files, fread, header = TRUE)
+  mylist <- lapply(files, data.table::fread, header = TRUE)
   mylist <- mylist[lapply(mylist,length) > 0]
-  data.full <- rbindlist(mylist)
+  data.full <- data.table::rbindlist(mylist)
   data.full$file <- gsub(".ijout.txt", "", gsub("ParticleLinker_", "", rep(dir(here, pattern = ".ijout.txt"), lapply(mylist, nrow))))
   data.full$y <- -data.full$y
   trajectory.data <- as.data.frame(data.full)

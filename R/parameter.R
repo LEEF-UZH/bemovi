@@ -299,7 +299,65 @@ par_extrapolation.factor(13.84)
 
 #
 #' @name par_timeout
-#' @title parameter timeout if 0, no timeout
+#' @title parameter timeout. If 0, no timeout
 #' @export
 par_timeout <- par_template
 par_timeout(0)
+
+# Crop in Pixels ----------------------------------------------------------
+
+#
+#' @name par_crop_pixels
+#' @title Cropping of identified and measured particles.
+#' @details This function returns a list with four elements, namely \code{xmin}, \code{xmax}, \code{ymin} and \code{ymax}.
+#'   To set this parameter \bold{all need to be set in a named list!}
+#'   If a value is \code{NULL} (\code{~} in the parameter file), it is assumed to be the maximum or minimum value.  
+#' @export
+par_crop_pixels <- par_template
+par_crop_pixels(list(xmin = 0, xmax = 100, ymin = 0, ymax = 100))
+
+
+# If cropped, uncropped or both should be calculated ------------------------
+
+#
+#' @name par_calc_crop
+#' @title If cropped, uncropped or both d=should be calculated
+#' @details Can contain the following values:
+#'   \code{cropped}: calculate cropped only;
+#'   \code{uncroped}; calculate uncropped only;
+#'   \code{both}: calculate both
+#' @export
+par_calc_crop <- par_template
+par_calc_crop("both")
+
+
+# Names of the output files ----------------------------------------------
+
+#
+#' @name par_particle
+#' @title Name of organised particles file
+#' @export
+par_particle <- par_template
+par_particle("particle.rds")
+
+#
+#' @name par_trajectory
+#' @title Name of organised trajectory file
+#' @export
+par_trajectory <- par_template
+par_trajectory("trajectory.rds")
+
+#
+#' @name par_master
+#' @title Name of Master file
+#' @export
+par_master <- par_template
+par_master("Master.rds")
+
+#
+#' @name par_morph_mvt
+#' @title Name of Morph_mvt file
+#' @export
+par_morph_mvt <- par_template
+par_morph_mvt("Morph_mvt.rds")
+

@@ -31,8 +31,8 @@ merge_data <- function(
   
   
   ## load the two datasets
-  morphology.data <- readRDS(file.path(to.data, particle.data.folder, "particle.rds"))
-  trajectory.data <- readRDS(file.path(to.data, trajectory.data.folder, "trajectory.rds"))
+  morphology.data <- readRDS(file.path(to.data, particle.data.folder, par_particle()))
+  trajectory.data <- readRDS(file.path(to.data, trajectory.data.folder, par_trajectory()))
   
   # Prep for merging the trajectory data 
   # Note that the next lines also swap the x and y
@@ -76,5 +76,5 @@ merge_data <- function(
   
   ## create Master.rds
   
-  saveRDS(trajectory.data, file = file.path(to.data, merged.data.folder, "Master.rds"))
+  saveRDS(trajectory.data, file = file.path(to.data, merged.data.folder, par_master()))
 } 

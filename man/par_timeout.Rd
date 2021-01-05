@@ -2,10 +2,10 @@
 % Please edit documentation in R/parameter.R
 \name{par_timeout}
 \alias{par_timeout}
-\title{parameter timeout if 0, no timeout}
+\title{parameter timeout. If 0, no timeout}
 \usage{
 par_timeout(value)
 }
 \description{
-parameter timeout if 0, no timeout
+parameter timeout. If 0, no timeout
 }

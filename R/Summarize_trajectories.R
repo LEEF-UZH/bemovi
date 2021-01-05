@@ -117,7 +117,7 @@ morph_mvt$file <- as.character(morph_mvt$file)
 
   
 #output summary data
-if (write==TRUE){saveRDS(morph_mvt, file = file.path(to.data, merged.data.folder,"Morph_mvt.rds"))}
+if (write==TRUE){saveRDS(morph_mvt, file = file.path(to.data, merged.data.folder, par_morph_mvt()))}
 return(as.data.frame(morph_mvt))
 
 }

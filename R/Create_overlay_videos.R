@@ -40,7 +40,7 @@ create_overlays <- function(
   
   # video.dir <- file.path(to.data, raw.video.folder)
   
-  trajectory.data <- readRDS(file = file.path(to.data,merged.data.folder, "Master.rds")) 
+  trajectory.data <- readRDS(file = file.path(to.data,merged.data.folder, par_master())) 
   file_names <- unique(trajectory.data$file)
   
   ## change path for output
