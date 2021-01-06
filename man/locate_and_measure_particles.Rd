@@ -12,6 +12,7 @@ locate_and_measure_particles(
   min_size = par_min_size(),
   max_size = par_max_size(),
   thresholds = par_thresholds(),
+  crop_pixels = par_crop_pixels(),
   IJ.path = par_IJ.path(),
   memory = par_memory(),
   ijmacs.folder = par_ijmacs.folder(),
@@ -34,6 +35,8 @@ compute the difference image. If 0, then no differencing applied.}
 \item{max_size}{maximum size for detection of particles}
 
 \item{thresholds}{vector containing the min and max threshold values (defaults to c(10,255))}
+
+\item{crop_pixels}{pixels to which the particle data should be cropped}
 
 \item{IJ.path}{path to ImageJ folder, containing the 'ij.jar' executable}
 

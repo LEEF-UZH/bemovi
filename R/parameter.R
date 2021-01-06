@@ -314,21 +314,22 @@ par_timeout(0)
 #'   If a value is \code{NULL} (\code{~} in the parameter file), it is assumed to be the maximum or minimum value.  
 #' @export
 par_crop_pixels <- par_template
-par_crop_pixels(list(xmin = 0, xmax = 100, ymin = 0, ymax = 100))
-
-
-# If cropped, uncropped or both should be calculated ------------------------
-
-#
-#' @name par_calc_crop
-#' @title If cropped, uncropped or both d=should be calculated
-#' @details Can contain the following values:
-#'   \code{cropped}: calculate cropped only;
-#'   \code{uncroped}; calculate uncropped only;
-#'   \code{both}: calculate both
-#' @export
-par_calc_crop <- par_template
-par_calc_crop("both")
+par_crop_pixels(list(xmin = 0, xmax = Inf, ymin = 0, ymax = Inf))
+fix_crop_pixels <- function(crop_pixels = par_crop_pixels()) {
+  if (is.null(crop_pixels$xmin)) {
+    crop_pixels$xmin <- 0
+  }
+  if (is.null(crop_pixels$xmax)) {
+    crop_pixels$xmin <- Inf
+  }
+  if (is.null(crop_pixels$ymin)) {
+    crop_pixels$xmin <- 0
+  }
+  if (is.null(crop_pixels$ymax)) {
+    crop_pixels$xmin <- Inf
+  }
+  return(crop_pixels)
+}
 
 
 # Names of the output files ----------------------------------------------

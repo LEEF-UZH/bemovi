@@ -27,7 +27,7 @@ merge_data <- function(
   col_classes <- vector(mode = "character")
   col_classes[1] <- "character"
   names(col_classes) <- "file"
-  file.sample.info <- as.data.table(read.table(file.path(to.data, video.description.folder, video.description.file), sep = "\t", colClasses = col_classes, header = TRUE))
+  file.sample.info <- data.table::as.data.table(read.table(file.path(to.data, video.description.folder, video.description.file), sep = "\t", colClasses = col_classes, header = TRUE))
   
   
   ## load the two datasets
@@ -36,7 +36,7 @@ merge_data <- function(
   
   # Prep for merging the trajectory data 
   # Note that the next lines also swap the x and y
-  trajectory.data <- as.data.table(trajectory.data)
+  trajectory.data <- data.table::as.data.table(trajectory.data)
   
   trajectory.data$Y1 <- -trajectory.data$X
   trajectory.data$X1 <-  trajectory.data$Y
@@ -49,7 +49,7 @@ merge_data <- function(
   #trajectory.data$file <- tolower(trajectory.data$file)
     
   ## Prep for merging the morphology data
-  morphology.data <- as.data.table(morphology.data)
+  morphology.data <- data.table::as.data.table(morphology.data)
   morphology.data$frame <- morphology.data$Slice
   morphology.data$Slice <- NULL
   #morphology.data$file <- tolower(morphology.data$file)
@@ -59,8 +59,8 @@ merge_data <- function(
   ## make the merge of the file names case insensitive
   #merged1 <- merged1[, file:=tolower(as.character(file))]
 
-  setkey(merged1, file)
-  setkey(file.sample.info, file)
+  data.table::setkey(merged1, file)
+  data.table::setkey(file.sample.info, file)
   merged2 <- merge(merged1, file.sample.info, all = FALSE)
   
   # check that file contains data, otherwise report error
@@ -72,7 +72,7 @@ merge_data <- function(
   # drop particles which are not part of trajectories
   trajectory.data <- merged2[!is.na(merged2$id), ]
   
-  setkey(trajectory.data, file, id, frame)
+  data.table::setkey(trajectory.data, file, id, frame)
   
   ## create Master.rds
   

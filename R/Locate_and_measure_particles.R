@@ -10,6 +10,7 @@
 #' @param min_size minimum size for detection of particles
 #' @param max_size maximum size for detection of particles
 #' @param thresholds vector containing the min and max threshold values (defaults to c(10,255))
+#' @param crop_pixels pixels to which the particle data should be cropped
 #' @param IJ.path path to ImageJ folder, containing the 'ij.jar' executable
 #' @param memory numeric value specifying the amount of memory available to ImageJ (defaults to 512)
 #' @param ijmacs.folder directory for the macro to for ImageJ 
@@ -28,7 +29,8 @@ locate_and_measure_particles <- function(
   difference.lag = par_difference.lag(), 
   min_size = par_min_size(), 
   max_size = par_max_size(), 
-  thresholds = par_thresholds(), 
+  thresholds = par_thresholds(),
+  crop_pixels = par_crop_pixels(), 
   IJ.path = par_IJ.path(), 
   memory = par_memory(),
   ijmacs.folder = par_ijmacs.folder(),
@@ -105,7 +107,46 @@ locate_and_measure_particles <- function(
   
   system(cmd, timeout = par_timeout())
   
-  if ( length(list.files( file.path(to.data, particle.data.folder) ) ) > 0 ) {
+
+  # Crop the particles ------------------------------------------------------
+
+  crop_pixels <- fix_crop_pixels(crop_pixels)
+  
+  files <- list.files( 
+    file.path(
+      to.data, 
+      particle.data.folder
+    ), 
+    full.names=TRUE, 
+    recursive=FALSE,
+    pattern="*.txt"
+    )
+  if ( length( files ) > 0 ) {
+    lapply(
+      files, 
+      function(fn) {
+        dat <- read.table(fn, header=TRUE)
+        dat <- cbind(X1=rownames(dat), dat)
+        i <- (dat$X > crop_pixels$xmin) & 
+          (dat$X < crop_pixels$xmax) &
+          (dat$Y > crop_pixels$ymin) &
+          (dat$Y < crop_pixels$ymax)
+        dat <- dat[1,]
+        write.table(
+          dat, 
+          fn, 
+          sep = "\t", 
+          quote = FALSE, 
+          row.names = FALSE, 
+          col.names = TRUE
+        )
+      }
+    )
+  }
+
+  # Combine them (Organise) -------------------------------------------------
+  
+  if ( length( files ) > 0 ) {
     organise_particle_data(
       to.data = to.data, 
       particle.data.folder = particle.data.folder,
