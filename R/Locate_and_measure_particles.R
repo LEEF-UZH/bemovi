@@ -131,7 +131,7 @@ locate_and_measure_particles <- function(
           (dat$X < crop_pixels$xmax) &
           (dat$Y > crop_pixels$ymin) &
           (dat$Y < crop_pixels$ymax)
-        dat <- dat[1,]
+        dat <- dat[i,]
         write.table(
           dat, 
           fn, 
