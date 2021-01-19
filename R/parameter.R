@@ -362,3 +362,27 @@ par_master("Master.rds")
 par_morph_mvt <- par_template
 par_morph_mvt("Morph_mvt.rds")
 
+
+# Classification of particles into species --------------------------------
+
+
+#
+#' @name par_classifier_constant
+#' @title Name of classifier file for constant temperature treatment
+#' @export
+par_classifier_constant <- par_template
+par_classifier_constant("")
+
+#
+#' @name par_classifier_increasing
+#' @title Name of classifier file for increasing temperature treatment
+#' @export
+par_classifier_increasing <- par_template
+par_classifier_increasing("")
+
+#
+#' @name par_species_tracked
+#' @title Species tracked
+#' @export
+par_species_tracked <- par_template
+par_species_tracked("")
