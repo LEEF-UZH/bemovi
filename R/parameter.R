@@ -135,6 +135,12 @@ par_overlay.folder( "4 - overlays" )
 #' @export
 par_merged.data.folder <- par_template
 par_merged.data.folder( "5 - merged data" )
+#
+#' @name par_merged.dataunfiltered..folder
+#' @title parameter merged.data.unfiltered.folder
+#' @export
+par_merged.data.unfiltered.folder <- par_template
+par_merged.data.unfiltered.folder( "6 - merged data unfiltered" )
 ##
 #' @name par_ijmacs.folder
 #' @title parameter ijmacs.folder
