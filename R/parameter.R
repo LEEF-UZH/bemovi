@@ -362,6 +362,13 @@ par_master("Master.rds")
 par_morph_mvt <- par_template
 par_morph_mvt("Morph_mvt.rds")
 
+#
+#' @name par_mean_density
+#' @title Name of Mean density per ml file
+#' @export
+par_mean_density.rds <- par_template
+par_mean_density.rds("Mean_density_per_ml.rds.rds")
+
 
 # Classification of particles into species --------------------------------
 
