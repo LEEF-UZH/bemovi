@@ -5,16 +5,23 @@
 #' 
 #' @param to.data path to the working directory
 #' @param merged.data.folder directory where the global database is saved
-#' @param raw.video.folder directory with the raw video files 
-#' @param temp.overlay.folder temporary directory to save the overlay created with R
+#' @param raw.video.folder directory with the raw video files
+#' @param temp.overlay.folder temporary directory to save the overlay created
+#'   with R
 #' @param overlay.folder directory where the overlay videos are saved
 #' @param width width of the raw video
 #' @param height height of the raw video
-#' @param difference.lag numeric value specifying the offset between two video frames to compute the difference image
-#' @param type string indicating the visualization type (i.e. 'label' or 'traj'): either the overlay
-#' is showing the trajectory ID and outlines the detected particle (type='label') or the whole trajectory
-#' remains plotted (type='traj').
-#' @param predict_spec logical If TRUE, the Master.rds file must have a column called predict_spec, indicating the species to which the trajectory belongs
+#' @param difference.lag numeric value specifying the offset between two video
+#'   frames to compute the difference image
+#' @param type string indicating the visualization type (i.e. 'label' or
+#'   'traj'): either the overlay is showing the trajectory ID and outlines the
+#'   detected particle (type='label') or the whole trajectory remains plotted
+#'   (type='traj').
+#' @param predict_spec logical or character If \code{TRUE}, the Master.rds file must
+#'   have a column called predict_spec, indicating the species to which the
+#'   trajectory belongs. If a \code{character}, the Master.rds file must
+#'   have a column called the value of the \code{character} value, indicating the species to which the
+#'   trajectory belongs
 #' @param contrast.enhancement numeric value to increase the contrast of the original video
 #' @param IJ.path path to ImageJ folder, containing the 'ij.jar' executable
 #' @param memory numeric value specifying the amount of memory available to ImageJ (defaults to 512)
@@ -35,6 +42,13 @@ create_overlays <- function(
   IJ.path = par_IJ.path(), 
   memory = par_memory()
 ) {
+  
+  if (isTRUE(predict_spec)) {
+    predict_spec_field <- "predict_spec"
+  } else if (!is.character(predict_spec)) {
+    predict_spec_field <- predict_spec
+    predict_spec <- TRUE
+  }
   
   #trajectory.data<-trajectory<-ijmacs.folder<-NULL
   
@@ -72,7 +86,7 @@ create_overlays <- function(
         
         if (predict_spec == TRUE) {
           
-          print <- subset(trajectory.data_tmp,trajectory.data_tmp$frame <= j, select = c("X","Y","trajectory","predict_spec"))
+          print <- subset(trajectory.data_tmp,trajectory.data_tmp$frame <= j, select = c("X","Y","trajectory","predict_spec_field"))
           
           ## plot the particle(s) so long as there are some
           if (length(print[, 1]) != 0) {
@@ -80,7 +94,7 @@ create_overlays <- function(
               print$X, print$Y, 
               xlim = c(0, as.numeric(width)), 
               ylim = c(as.numeric(height), 0),  
-              col = as.factor(print$predict_spec), 
+              col = as.factor(print[predict_spec_field]), 
               pch = 15, 
               cex = 1, 
               asp = 1
@@ -121,7 +135,7 @@ create_overlays <- function(
         
         if (predict_spec == TRUE){
           
-          print <- subset(trajectory.data_tmp,trajectory.data_tmp$frame == j, select = c("X","Y","trajectory","predict_spec"))
+          print <- subset(trajectory.data_tmp,trajectory.data_tmp$frame == j, select = c("X","Y","trajectory","predict_spec_field"))
                     
           ## plot the particle(s) so long as there are some
           if (length(print[, trajectory, ]) != 0) {
@@ -130,12 +144,12 @@ create_overlays <- function(
               print$Y, 
               xlim = c(0,as.numeric(width)), 
               ylim = c(as.numeric(height), 0), 
-              col = as.factor(print$predict_spec), 
+              col = as.factor(print[predict_spec_field]), 
               pch = 1, 
               cex = 6, 
               asp = 1
               )
-            text(print$X, print$Y - 20,print$trajectory,cex = 2,col = as.numeric(print$predict_spec))
+            text(print$X, print$Y - 20,print$trajectory,cex = 2,col = as.numeric(print[predict_spec_field]))
             }
           
           ## otherwise just plot the empty frame
@@ -157,9 +171,9 @@ create_overlays <- function(
   if (.Platform$OS.type == "unix") 
     text <- readLines(file.path(system.file(package = "bemovi.LEEF"), "ImageJ_macros/Video_overlay.ijm"))
   
-  text[grep("video_input = ", text)] <- paste("video_input = ", "'", file.path(to.data, raw.video.folder), "';", sep = "")
-  text[grep("overlay_input = ", text)] <- paste("overlay_input = ", "'", file.path(to.data, temp.overlay.folder), "';", sep = "")
-  text[grep("overlay_output = ", text)] <- paste("overlay_output = ", "'", file.path(to.data, overlay.folder), "';", sep = "")
+  text[grep("video_input = ", text)] <- paste("video_input = ", "'", file.path(to.data, raw.video.folder, ""), "';", sep = "")
+  text[grep("overlay_input = ", text)] <- paste("overlay_input = ", "'", file.path(to.data, temp.overlay.folder, ""), "';", sep = "")
+  text[grep("overlay_output = ", text)] <- paste("overlay_output = ", "'", file.path(to.data, overlay.folder, ""), "';", sep = "")
   text[grep("lag =", text)] <- paste("lag = ", difference.lag, ";", sep = "") 
   text[grep("Enhance Contrast", text)] <- paste("run(\"Enhance Contrast...\", \"saturated=", contrast.enhancement, " process_all\");", sep = "")
   if (predict_spec == TRUE) {
@@ -168,10 +182,10 @@ create_overlays <- function(
 
     ## re-create ImageJ macro for batch processing of video files with ParticleTracker
   if (.Platform$OS.type == "windows") 
-    writeLines(text, con = file.path(to.data, ijmacs.folder, "Video_overlay_tmp.ijm"))
+    writeLines(text, con = file.path(to.data, par_ijmacs.folder(), "Video_overlay_tmp.ijm"))
   if (.Platform$OS.type == "unix") {
    # ijmacs.folder1 <- sub(raw.video.folder, ijmacs.folder, video.dir)
-    writeLines(text, con = file.path(to.data, ijmacs.folder, "/Video_overlay_tmp.ijm"))
+    writeLines(text, con = file.path(to.data, par_ijmacs.folder(), "/Video_overlay_tmp.ijm"))
   }
   
   ## create directory to store overlays
@@ -188,12 +202,12 @@ create_overlays <- function(
   # if (.Platform$OS.type == "windows") 
   #   cmd <- paste0("\"", IJ.path, "\""," -macro ","\"", paste0(gsub("/", "\\\\", paste0(to.data, ijmacs.folder))), "Video_overlay_tmp.ijm", "\"")
   # 
-  
+  browser()
   cmd <- paste0(
     ij.bin(), 
     " --headless",
     " --ij2",
-    " -macro ", file.path( to.data, ijmacs.folder, "Video_overlay_tmp.ijm" )
+    " -macro '", file.path( to.data, par_ijmacs.folder(), "Video_overlay_tmp.ijm'" )
   )
   
   ## run ImageJ macro

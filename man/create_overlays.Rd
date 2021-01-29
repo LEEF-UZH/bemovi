@@ -27,7 +27,8 @@ create_overlays(
 
 \item{raw.video.folder}{directory with the raw video files}
 
-\item{temp.overlay.folder}{temporary directory to save the overlay created with R}
+\item{temp.overlay.folder}{temporary directory to save the overlay created
+with R}
 
 \item{overlay.folder}{directory where the overlay videos are saved}
 
@@ -35,13 +36,19 @@ create_overlays(
 
 \item{height}{height of the raw video}
 
-\item{difference.lag}{numeric value specifying the offset between two video frames to compute the difference image}
+\item{difference.lag}{numeric value specifying the offset between two video
+frames to compute the difference image}
 
-\item{type}{string indicating the visualization type (i.e. 'label' or 'traj'): either the overlay
-is showing the trajectory ID and outlines the detected particle (type='label') or the whole trajectory
-remains plotted (type='traj').}
+\item{type}{string indicating the visualization type (i.e. 'label' or
+'traj'): either the overlay is showing the trajectory ID and outlines the
+detected particle (type='label') or the whole trajectory remains plotted
+(type='traj').}
 
-\item{predict_spec}{logical If TRUE, the Master.rds file must have a column called predict_spec, indicating the species to which the trajectory belongs}
+\item{predict_spec}{logical or character If \code{TRUE}, the Master.rds file must
+have a column called predict_spec, indicating the species to which the
+trajectory belongs. If a \code{character}, the Master.rds file must
+have a column called the value of the \code{character} value, indicating the species to which the
+trajectory belongs}
 
 \item{contrast.enhancement}{numeric value to increase the contrast of the original video}
 
