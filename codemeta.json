@@ -14,7 +14,7 @@
     "name": "R",
     "url": "https://r-project.org"
   },
-  "runtimePlatform": "R version 4.0.3 (2020-10-10)",
+  "runtimePlatform": "R version 4.0.4 (2021-02-15)",
   "author": [
     {
       "@type": "Person",
@@ -93,7 +93,7 @@
   ],
   "codeRepository": "https://github.com/LEEF-UZH/bemovi",
   "readme": "https://github.com/LEEF-UZH/bemovi/blob/LEEF/README.md",
-  "fileSize": "122.46KB",
+  "fileSize": "122.536KB",
   "citation": [
     {
       "@type": "ScholarlyArticle",
@@ -129,5 +129,6 @@
         }
       }
     }
-  ]
+  ],
+  "releaseNotes": "https://github.com/LEEF-UZH/bemovi/blob/master/NEWS.md"
 }
