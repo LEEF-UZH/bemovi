@@ -15,9 +15,7 @@ create_overlays(
   difference.lag = par_difference.lag(),
   type = "traj",
   predict_spec = FALSE,
-  contrast.enhancement = 0,
-  IJ.path = par_IJ.path(),
-  memory = par_memory()
+  ffmpeg = "ffmpeg"
 )
 }
 \arguments{
@@ -50,13 +48,9 @@ trajectory belongs. If a \code{character}, the Master.rds file must
 have a column called the value of the \code{character} value, indicating the species to which the
 trajectory belongs}
 
-\item{contrast.enhancement}{numeric value to increase the contrast of the original video}
-
-\item{IJ.path}{path to ImageJ folder, containing the 'ij.jar' executable}
-
-\item{memory}{numeric value specifying the amount of memory available to ImageJ (defaults to 512)}
+\item{ffmpeg}{command to run ffmpeg. The default is \code{ffmpeg}.  It can include a path.}
 }
 \description{
-A function to overlay the extracted trajectories onto the original video, using plots created in R and then processed in 
+A function to overlay the extracted trajectories onto the original video, using plots created in R and then processed in
 ImageJ; two visualization types are available
 }
