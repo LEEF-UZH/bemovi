@@ -49,6 +49,22 @@ create_overlays <- function(
     stop("predict_spec has to be TRUE, FALSE, or a character vector of length 1")
   }
 
+  # Helper function ---------------------------------------------------------
+
+  plot_crop_frame <- function() {
+    cf <- fix_crop_pixels(par_crop_pixels())
+    cf[["xmax"]][is.infinite(cf[["xmax"]])] <- width
+    cf[["ymax"]][is.infinite(cf[["ymax"]])] <- height
+    rect(
+      xleft = cf$xmin, 
+      ybottom = cf$ymin, 
+      xright = cf$xmax, 
+      ytop = cf$ymax, 
+      border = "red", 
+      lwd = 4
+    ) 
+  }
+
   # trajectory.data<-trajectory<-ijmacs.folder<-NULL
 
   # video.dir <- file.path(to.data, raw.video.folder)
@@ -60,7 +76,7 @@ create_overlays <- function(
   dir.create(file.path(to.data, temp.overlay.folder), showWarnings = FALSE)
   dir.create(file.path(to.data, overlay.folder), showWarnings = FALSE)
   
-  lapply(  # parallel::mclapply(
+  lapply(
     1:length(file_names),
     function(i) {
       dir.create(file.path(to.data, temp.overlay.folder, file_names[i]), showWarnings = FALSE)
@@ -146,7 +162,9 @@ create_overlays <- function(
               )
             }
           }
-          
+            
+          plot_crop_frame()
+
           dev.off()
           j <- j + 1
         }
@@ -239,15 +257,14 @@ create_overlays <- function(
             }
           }
           
+          plot_crop_frame()
+          
           dev.off()
           j <- j + 1
         }
       }
       
-      
-      # Convert to avi movi -----------------------------------------------------
 
-      
       args <- paste0(
         "-start_number 1 ",
         "-framerate 10 ",
@@ -268,7 +285,7 @@ create_overlays <- function(
       args <- paste0(
         "-i '", file.path(raw.video.folder, paste0(file_names[i], ".avi")), "' ",
         "-i '", file.path(to.data, temp.overlay.folder, file_names[i], "overlay.avi"), "' ",
-        "-filter_complex 'overlay=0x0' ",
+        "-filter_complex 'overlay=x=0:y=0' ",
         "'", file.path(to.data, par_overlay.folder(), paste0(file_names[i], "_overlay.avi")), "' "
       )
       
@@ -277,8 +294,7 @@ create_overlays <- function(
         args = args
       )
       
-    } #,
-#    mc.preschedule = FALSE
+    }
   )
   
 }

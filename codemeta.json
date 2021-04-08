@@ -8,7 +8,7 @@
   "description": "An R and ImageJ based work flow to automatically measure behaviour\n    and morphology from videos. Moving individuals are identified by background\n    subtraction, morphology extracted, and trajectories assembled through time from\n    coordinate data. Abundance, morphology and behaviour can be summarized based on\n    trajectory data.",
   "name": "bemovi.LEEF: BEMOVI, software for extracting BEhaviour and MOrphology from VIdeos",
   "license": "https://spdx.org/licenses/CC-BY-NC-4.0",
-  "version": "1.0.28",
+  "version": "1.0.29",
   "programmingLanguage": {
     "@type": "ComputerLanguage",
     "name": "R",
@@ -86,11 +86,6 @@
     },
     {
       "@type": "SoftwareApplication",
-      "identifier": "parallel",
-      "name": "parallel"
-    },
-    {
-      "@type": "SoftwareApplication",
       "identifier": "R",
       "name": "R",
       "version": ">= 3.0.2"
@@ -98,7 +93,7 @@
   ],
   "codeRepository": "https://github.com/LEEF-UZH/bemovi",
   "readme": "https://github.com/LEEF-UZH/bemovi/blob/LEEF/README.md",
-  "fileSize": "122.6KB",
+  "fileSize": "122.817KB",
   "citation": [
     {
       "@type": "ScholarlyArticle",
