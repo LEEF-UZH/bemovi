@@ -8,7 +8,7 @@ Description: An R and ImageJ based work flow to automatically measure behaviour
 Version: 1.0.29
 Author: Frank Pennekamp <Frank.Pennekamp@ieu.uzh.ch>, Owen Petchey
     <Owen.Petchey@ieu.uzh.ch>
-Maintainer: Frank Pennekamp <Frank.Pennekamp@ieu.uzh.ch>
+Maintainer: Rainer M Krug <Rainer@krugs.de>
 Imports:
     data.table,
     circular,
