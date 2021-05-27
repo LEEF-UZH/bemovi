@@ -10,6 +10,9 @@
 #' @param video.description.file name of the video description file
 #' @param merged.data.folder directory where the global database is saved
 #' @return saves the global database Master.rds to the merged.data.folder
+#'
+#' @importFrom utils read.table
+#'
 #' @export
 
 merge_data <- function(
@@ -27,7 +30,7 @@ merge_data <- function(
   col_classes <- vector(mode = "character")
   col_classes[1] <- "character"
   names(col_classes) <- "file"
-  file.sample.info <- data.table::as.data.table(read.table(file.path(to.data, video.description.folder, video.description.file), sep = "\t", colClasses = col_classes, header = TRUE))
+  file.sample.info <- data.table::as.data.table(utils::read.table(file.path(to.data, video.description.folder, video.description.file), sep = "\t", colClasses = col_classes, header = TRUE))
   
   
   ## load the two datasets

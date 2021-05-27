@@ -12,7 +12,10 @@
 #' @param video.description.file name of the video description file
 #' 
 #' @return returns a data.table with the aggregated morphology and movement information for each trajectory
+
 #' @import circular
+#' @importFrom stats IQR median
+#' @importFrom utils read.delim
 #' @export
 
 summarize_trajectories <- function(
@@ -37,18 +40,18 @@ data[,id_:=id]
 #summarize morphology
 morphology <- if(calculate.median){
 						data[, list(
-                    median_grey = median(Mean),
-                		median_area = median(Area),
-             		    median_perimeter = median(Perimeter),
-             		    median_major = median(Major),
-             		    median_minor = median(Minor),
-             		    median_ar = median(AR),
-                		IQR_grey = IQR(Mean, na.rm = FALSE, type = 7),
-                		IQR_area = IQR(Area, na.rm = FALSE, type = 7),
-                		IQR_perimeter = IQR(Perimeter, na.rm = FALSE, type = 7),
-                		IQR_major = IQR(Major, na.rm = FALSE, type = 7),
-                		IQR_minor = IQR(Minor, na.rm = FALSE, type = 7),
-                		IQR_ar = IQR(AR, na.rm = FALSE, type = 7)), 
+                    median_grey = stats::median(Mean),
+                		median_area = stats::median(Area),
+             		    median_perimeter = stats::median(Perimeter),
+             		    median_major = stats::median(Major),
+             		    median_minor = stats::median(Minor),
+             		    median_ar = stats::median(AR),
+                		IQR_grey = stats::IQR(Mean, na.rm = FALSE, type = 7),
+                		IQR_area = stats::IQR(Area, na.rm = FALSE, type = 7),
+                		IQR_perimeter = stats::IQR(Perimeter, na.rm = FALSE, type = 7),
+                		IQR_major = stats::IQR(Major, na.rm = FALSE, type = 7),
+                		IQR_minor = stats::IQR(Minor, na.rm = FALSE, type = 7),
+                		IQR_ar = stats::IQR(AR, na.rm = FALSE, type = 7)), 
                     by=id_]
               			} else {
                  			data[, 
@@ -65,7 +68,7 @@ morphology <- if(calculate.median){
 	                        sd_minor = sd(Minor),
 	                        mean_ar = mean(AR),
 	                        sd_ar = sd(AR)
-                       ), by=id_]	
+                       ), by=id_]
                  			}
 
 #sumarize movement properties
@@ -105,7 +108,7 @@ morph_mvt$file <- lapply(strsplit(as.character(morph_mvt$id), "\\-"), "[", 1)
 col_classes <- vector(mode = "character")
 col_classes[1] <- "character"
 names(col_classes) <- "file"
-video.descr.file <- read.delim(file.path(to.data, video.description.folder, video.description.file), colClasses = col_classes, stringsAsFactors=F)
+video.descr.file <- utils::read.delim(file.path(to.data, video.description.folder, video.description.file), colClasses = col_classes, stringsAsFactors=F)
 
 #morph_mvt is not normal data.frame it's list of lists. Make it a "regular" data.frame:
 morph_mvt <- as.data.frame(lapply(morph_mvt, function(X) unname(unlist(X))))

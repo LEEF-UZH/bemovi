@@ -20,6 +20,9 @@
 #' called 'particle.rds'. This data.frame contains information about the following properties: the area (transversal cut), 
 #' the mean, minimum and maximum of the grey value, the perimeter, width, length and angle with the dominant-axis of a fitted ellipse, and finally shape parameters such as
 #' circularity, aspect ratio, roundness and solidity. For details of the morphological output, please refer to http://rsbweb.nih.gov/ij/docs/guide/146-30.html 
+#'
+#' @importFrom utils read.table write.table
+#'
 #' @export 
 
 locate_and_measure_particles <- function(
@@ -125,14 +128,14 @@ locate_and_measure_particles <- function(
     lapply(
       files, 
       function(fn) {
-        dat <- read.table(fn, header=TRUE)
+        dat <- utils::read.table(fn, header=TRUE)
         dat <- cbind(X1=rownames(dat), dat)
         i <- (dat$X > crop_pixels$xmin) & 
           (dat$X < crop_pixels$xmax) &
           (dat$Y > crop_pixels$ymin) &
           (dat$Y < crop_pixels$ymax)
         dat <- dat[i,]
-        write.table(
+        utils::write.table(
           dat, 
           fn, 
           sep = "\t", 

@@ -13,6 +13,6 @@ full path of ewxecutable of ImageJ
 Return ImegeJ executable based on platform. Darwin, Windows and Linux are supported
 }
 \examples{
-ij.path()
+ij.bin()
 
 }

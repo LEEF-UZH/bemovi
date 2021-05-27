@@ -4,7 +4,7 @@
 #' @export
 #'
 #' @examples
-#' ij.path()
+#' ij.bin()
 #' 
 ij.bin <- function(){
   result <- switch(

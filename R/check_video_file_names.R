@@ -4,6 +4,9 @@
 #' contain periods except before the file type extension
 #' @param to.data path to the working directory 
 #' @param raw.video.folder directory with the raw video files
+#'
+#' @importFrom utils read.table
+#'
 #' @return returns an error message and a list with unsupported files or names
 #' @export
 
@@ -59,7 +62,7 @@ check_video_file_names <- function(
   col_classes[1] <- "character"
   names(col_classes) <- "file"
   file.sample.info <-
-    as.data.table(read.table(
+    as.data.table(utils::read.table(
       file.path(
         to.data,
         video.description.folder,

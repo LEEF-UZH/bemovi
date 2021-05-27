@@ -10,6 +10,8 @@
 #' @param median_step_filter threshold such that half of the step lengths are above the specified value
 #' @param fps Frames Per Second of the video
 #' 
+#' @importFrom stats median
+#' 
 #' @return returns a dataset with all fixes of valid trajectories
 #' @export
 
@@ -39,7 +41,7 @@ filter_data <- function(
       N_frames = length(net_disp) / fps,
       max_net_disp = max(sqrt(net_disp), na.rm =
                            T),
-      median_step = median(step_length, na.rm =
+      median_step = stats::median(step_length, na.rm =
                              T)
     ), by = id_] 
   

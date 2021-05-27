@@ -20,6 +20,9 @@
 #' the step speed (step length/step duration), the gross displacement as the cumulative sum of the step lengths, the net displacement between the first fix of a given trajectory 
 #' and the current fix and finally the relative angle (turning angle) and absolute angle (in radians). For details on these metrics, please refer to a dedicated textbook 
 #' (e.g. Turch (1998): Quantitative Analysis of Movement: Measuring and Modeling Population Redistribution in Animals and Plants, Sinauer Associates, Sunderland).
+#'
+#' @importFrom utils read.table write.table
+#'
 #' @export
 link_particles <- function(
   to.data = par_to.data(), 
@@ -47,7 +50,7 @@ link_particles <- function(
   
   for (j in start_vid:length(all.files)) {
     
-    PA_data <- read.table(
+    PA_data <- utils::read.table(
       file.path(PA_output_dir, all.files[j]), 
       sep = "\t", 
       header = TRUE
@@ -67,7 +70,7 @@ link_particles <- function(
         cat(paste0("frame ", i - 1))
         cat("\n")
         sink()
-        write.table(frame, file = file.path(dir, paste0("frame_", sprintf("%04d", i - 1), ".txt")), append = TRUE, col.names = FALSE, 
+        utils::write.table(frame, file = file.path(dir, paste0("frame_", sprintf("%04d", i - 1), ".txt")), append = TRUE, col.names = FALSE, 
                     row.names = FALSE)
       }
       

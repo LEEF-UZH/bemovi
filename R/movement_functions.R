@@ -1,4 +1,17 @@
 # define the functions to calculate movement parameters
+#' Title
+#'
+#' @param xx TODO
+#' @param yy TODO
+#' @param bearing TODO
+#' @param as.deg TODO
+#'
+#' @return TODO
+#' @export
+#' 
+#' @importFrom stats na.omit
+#'
+#' @examples
 anglefun <- function(
   xx,
   yy,
@@ -39,7 +52,7 @@ rel.angle <- function(
   abs.angle
 ){
   
-  abs.angle <- na.omit(abs.angle)
+  abs.angle <- stats::na.omit(abs.angle)
   
   if (length(abs.angle) > 2) { 
     obs <- length(abs.angle)

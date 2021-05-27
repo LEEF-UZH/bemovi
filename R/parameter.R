@@ -7,14 +7,16 @@
 #' @param value if missing, the value of the parameter will be returned, \code{NULL} if the parameter does not exist; if specified, the parameter will be set to the value
 #'
 #' @return the (new) value of the argument
-#' 
+#'
+#' @importFrom utils tail
+#'
 #' @export
 #' 
 #' @examples
 par_template <- function(value) {
   parName <- match.call()[[1]]
   parName <- as.character(parName)
-  parName <- tail(parName, 1)
+  parName <- utils::tail(parName, 1)
   parName <- gsub("par_", "", parName)
   if ( missing(value) ) { 
     if (!exists(parName, envir = .BEMOVI_CACHE, inherits = FALSE)) {

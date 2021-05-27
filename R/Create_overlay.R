@@ -24,7 +24,8 @@
 #'   trajectory belongs
 #' @param ffmpeg command to run ffmpeg. The default is \code{ffmpeg}.  It can include a path.
 #' 
-#' 
+#' @importFrom grDevices dev.off png
+#' @importFrom graphics par rect text
 #' @export
 
 create_overlays <- function(
@@ -55,7 +56,7 @@ create_overlays <- function(
     cf <- fix_crop_pixels(par_crop_pixels())
     cf[["xmax"]][is.infinite(cf[["xmax"]])] <- width
     cf[["ymax"]][is.infinite(cf[["ymax"]])] <- height
-    rect(
+    graphics::rect(
       xleft = cf$xmin, 
       ybottom = cf$ymin, 
       xright = cf$xmax, 
@@ -85,13 +86,13 @@ create_overlays <- function(
       
       if (type == "traj") {
         while (j <= max(trajectory.data$frame)) {
-          png(
+          grDevices::png(
             file.path(to.data, temp.overlay.folder, file_names[i], paste("frame_", j, ".png")), 
             width = as.numeric(width), 
             height = as.numeric(height), 
             bg = "transparent"   # quality = 100
           )
-          par( mar = rep(0, 4), xaxs = c("i"), yaxs = c("i") )
+          graphics::par( mar = rep(0, 4), xaxs = c("i"), yaxs = c("i") )
           
           if (predict_spec == FALSE) {
             print <- subset(
@@ -165,7 +166,7 @@ create_overlays <- function(
             
           plot_crop_frame()
 
-          dev.off()
+          grDevices::dev.off()
           j <- j + 1
         }
       }
@@ -173,13 +174,13 @@ create_overlays <- function(
       if (type == "label") {
         while (j <= max(trajectory.data$frame)) {
           
-          png(
+          grDevices::png(
             file.path(to.data, temp.overlay.folder, file_names[i], paste0("frame_", j, ".png")), 
             width = as.numeric(width), 
             height = as.numeric(height), 
             bg = "transparent"   # quality = 100
           )
-          par(mar = rep(0, 4), xaxs = c("i"), yaxs = c("i"))
+          graphics::par(mar = rep(0, 4), xaxs = c("i"), yaxs = c("i"))
           
           if (predict_spec == FALSE) {
             print <- subset(trajectory.data_tmp, trajectory.data_tmp$frame == j, select = c("X", "Y", "trajectory"))
@@ -197,7 +198,7 @@ create_overlays <- function(
                 cex = 6, 
                 asp = 1
               )
-              text(
+              graphics::text(
                 print$X, 
                 print$Y - 20, 
                 print$trajectory, 
@@ -232,7 +233,7 @@ create_overlays <- function(
                 cex = 6,
                 asp = 1
               )
-              text(
+              graphics::text(
                 print$X,
                 print$Y - 20, 
                 print$trajectory, 
@@ -259,7 +260,7 @@ create_overlays <- function(
           
           plot_crop_frame()
           
-          dev.off()
+          grDevices::dev.off()
           j <- j + 1
         }
       }
