@@ -11,14 +11,14 @@
 #' @importFrom utils tail
 #'
 #' @export
-#' 
+#'
 #' @examples
 par_template <- function(value) {
   parName <- match.call()[[1]]
   parName <- as.character(parName)
   parName <- utils::tail(parName, 1)
   parName <- gsub("par_", "", parName)
-  if ( missing(value) ) { 
+  if ( missing(value) ) {
     if (!exists(parName, envir = .BEMOVI_CACHE, inherits = FALSE)) {
       stop("Parameter '", parName, "' not set!\n", "Set by using '", parName, "(value)' before usage!")
     }
@@ -27,7 +27,7 @@ par_template <- function(value) {
   }
   result <- base::get(parName, envir = .BEMOVI_CACHE, inherits = FALSE)
   return( result )
-} 
+}
 
 #' Save parameter into \code{.yaml} file
 #'
@@ -66,14 +66,14 @@ load_parameter <- function(file = "parameter.yaml") {
 #'
 #' @param echo if \code{TRUE} print the parameter, if \code{FALSE}  just return them as list
 #' @param print_as_yaml Print in yaml formated text; \code{~} stands for NULL
-#' 
+#'
 #' @return invisible returns list of parameter for further processing
 #' @importFrom yaml as.yaml
 #' @export
 #'
 #' @examples
-print_parameter <- function( 
-  print_as_yaml = TRUE, 
+print_parameter <- function(
+  print_as_yaml = TRUE,
   echo = TRUE
 ) {
   result <- as.list(.BEMOVI_CACHE)
@@ -93,7 +93,7 @@ print_parameter <- function(
 #' @name par_to.data
 #' @title parameter to.data
 #' @export
-par_to.data <- par_template 
+par_to.data <- par_template
 par_to.data(NULL)
 #
 #' @name par_video.description.folder
@@ -105,7 +105,7 @@ par_video.description.folder( "0 - video description" )
 #' @name par_raw.video.folder
 #' @title parameter raw.video.folder
 #' @export
-par_raw.video.folder <- par_template 
+par_raw.video.folder <- par_template
 par_raw.video.folder( "1 - raw" )
 #
 #' @name par_particle.data.folder
@@ -138,7 +138,7 @@ par_overlay.folder( "4 - overlays" )
 par_merged.data.folder <- par_template
 par_merged.data.folder( "5 - merged data" )
 #
-#' @name par_merged.dataunfiltered..folder
+#' @name par_merged.data.unfiltered.folder
 #' @title parameter merged.data.unfiltered.folder
 #' @export
 par_merged.data.unfiltered.folder <- par_template
@@ -165,7 +165,7 @@ par_video.description.file( "video.description.txt" )
 #' @export
 par_java.path <- par_template
 par_java.path(NULL)
-# 
+#
 #' @name par_to.particlelinker
 #' @title parameter to.particlelinker
 #' @export
@@ -179,6 +179,37 @@ par_IJ.path <- par_template
 par_IJ.path(NULL)
 #
 
+#
+#' @name par_ffmpeg
+#' @title parameter executable ffmpeg
+#' @export
+par_ffmpeg <- par_template
+par_ffmpeg("ffmpeg")
+#
+
+#
+#' @name par_bfconvert
+#' @title parameter executable bfconvert of the bftools commandline tools
+#' @export
+par_bfconvert <- par_template
+par_bfconvert("bfconvert")
+#
+
+#
+#' @name par_showinf
+#' @title parameter executable showinf of the bftools commandline tools
+#' @export
+par_showinf <- par_template
+par_showinf("showinf")
+#
+
+#
+#' @name par_ffmpeg
+#' @title parameter executable ffmpeg
+#' @export
+par_ffmpeg <- par_template
+par_ffmpeg("ffmpeg")
+#
 
 # Other Parameter ---------------------------------------------------------
 
@@ -207,8 +238,6 @@ par_min_area(250)
 par_max_area <- par_template
 par_max_area(50000)
 #
-
-
 
 #' @name par_pixel_to_scale
 #' @title parameter pixel_to_scale
@@ -276,27 +305,27 @@ par_median_step_filter(NULL)
 #
 
 #' @name par_memory
-#' @title parameter memory 
+#' @title parameter memory
 #' @export
 par_memory <- par_template
 par_memory(512)
 #
 
 #' @name par_linkrange
-#' @title parameter linkrange 
+#' @title parameter linkrange
 #' @export
 par_linkrange <- par_template
 par_linkrange(1)
 #
 
 #' @name par_disp
-#' @title parameter disp 
+#' @title parameter disp
 #' @export
 par_disp <- par_template
 par_disp(10)
 
 #' @name par_disp
-#' @title parameter disp 
+#' @title parameter disp
 #' @export
 par_extrapolation.factor <- par_template
 par_extrapolation.factor(13.84)
@@ -319,7 +348,7 @@ par_timeout(0)
 #' @title Cropping of identified and measured particles.
 #' @details This function returns a list with four elements, namely \code{xmin}, \code{xmax}, \code{ymin} and \code{ymax}.
 #'   To set this parameter \bold{all need to be set in a named list!}
-#'   If a value is \code{NULL} (\code{~} in the parameter file), it is assumed to be the maximum or minimum value.  
+#'   If a value is \code{NULL} (\code{~} in the parameter file), it is assumed to be the maximum or minimum value.
 #' @export
 par_crop_pixels <- par_template
 par_crop_pixels(list(xmin = 0, xmax = Inf, ymin = 0, ymax = Inf))
@@ -401,3 +430,14 @@ par_classifier_increasing("")
 #' @export
 par_species_tracked <- par_template
 par_species_tracked("")
+
+
+# Parallel processing -----------------------------------------------------
+
+#
+#' @name par_mc.cores
+#' @title Number of cores to be used for parallel processing. Defaults to 1, i.e. no parallel processing
+#' @export
+par_mc.cores <- par_template
+par_mc.cores(1)
+
