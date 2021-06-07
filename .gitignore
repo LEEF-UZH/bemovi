@@ -1,7 +1,4 @@
-.gitignore
 .Rproj.user
 .Rhistory
 .RData
 franco.Rproj
-.Rbuildignore
-man/.Rd

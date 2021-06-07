@@ -51,7 +51,7 @@ calculate_mvt <- function(
   data <- data[data[,!(c(diff(X) == 0, F) & c(diff(Y) == 0, F)), by = id]$V1]
 
   #subset dataset to only include relevant movement information
-  data <- data[,list(file,X,Y,frame,id,trajectory)]
+  data <- data[, list(file, X, Y, frame, id, trajectory)]
   
   #rename frame column to avoid clashes with frame() function
   setnames(data, c("file","X","Y","frame","id","trajectory"), c("file","X","Y","frame_","id","trajectory"))

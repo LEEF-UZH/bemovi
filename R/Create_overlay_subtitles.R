@@ -3,33 +3,30 @@
 #' Function creates subtitle commands for every cell in every frame of the videos, using the x/y coordinates.
 #' Then ffmpeg is called to burn the overlay subtitles on, and save a compressed video.
 #' @param to.data path to the working directory
-#' @param traj.data filtered trajectory file
+#' @param merged.data.folder directory where the global database is saved
 #' @param raw.avi.folder path to the folder containing the converted and compressed .avi files
 #' @param temp.overlay.folder  temporary directory to save the overlay subtitles (.ssa files)
 #' @param overlay.folder directory where the overlay videos are saved
-#' @param fps framerate in the original video
-#' @param vid.length duration in seconds of the video
-#' @param width width in pixels of the original videos
-#' @param height height in pixels of the original video
-#' @param tools.path path to the dependency folder
+#' @param ffmpeg command to run ffmpeg. The default is \code{par_ffmpeg()}.  It can include a path.
+#' @param master name of the master file. Defaults to \code{par_master()}
 #' @param overlay.type option for the overlays. Overlays can either be shown as
-#' trajectory numbers ("number"), circle ("circle") or both ("both"). Defaults to "both".
-#' @return returns nothing (NULL)
+#' @param mc.cores number of cores toi be used for parallel execution. Defaults to \code{par_mac.cores()}
+#' @return returns invisibly \code{NULL}
 #' @importFrom data.table fwrite
 #' @export
 
 create_overlays_subtitle <- function(
   to.data = par_to.data(),
   merged.data.folder = par_merged.data.folder(),
-  avi.video.folder = par_raw.video.folder(),
+  raw.video.folder = par_raw.video.folder(),
   temp.overlay.folder = par_temp.overlay.folder(),
   overlay.folder = par_overlay.folder(),
-#  width
-# height
-  difference.lag = par_difference.lag(),
-#  type = "traj",
-#  predict_spec = FALSE,
-  ffmpeg = "ffmpeg",
+  # width NOT NEEDED ANYMORE
+  # height NOT NEEDED ANYMORE
+  # difference.lag = par_difference.lag(),
+  # type = "traj",
+  # predict_spec = FALSE,
+  ffmpeg = par_ffmpeg(),
   ## new arguments
   master = par_master(),
   overlay.type = "both",
@@ -51,7 +48,7 @@ create_overlays_subtitle <- function(
   avi_files <- unique(traj.data$file)
 
   # get fps for all avi files and add to traj.data
-  fps <- get_fps_avi(file.path(avi.video.folder, paste0(avi_files, ".avi")), mc.cores = mc.cores)
+  fps <- get_fps_avi(file.path(raw.video.folder, paste0(avi_files, ".avi")), mc.cores = mc.cores)
   fps <- data.frame(
     file = gsub(pattern = "\\.avi$", "", names(fps)),
     fps = fps
@@ -67,7 +64,7 @@ create_overlays_subtitle <- function(
   rm(fps)
 
   # get duration for all avi files and add to traj.data
-  duration <- get_duration_avi(file.path(avi.video.folder, paste0(avi_files, ".avi")), mc.cores = mc.cores)
+  duration <- get_duration_avi(file.path(raw.video.folder, paste0(avi_files, ".avi")), mc.cores = mc.cores)
   duration <- data.frame(
     file = gsub(pattern = "\\.avi$", "", names(duration)),
     duration = duration
@@ -83,7 +80,7 @@ create_overlays_subtitle <- function(
   rm(duration)
 
   # get width for all avi files and add to traj.data
-  width <- get_width_avi(file.path(avi.video.folder, paste0(avi_files, ".avi")), mc.cores = mc.cores)
+  width <- get_width_avi(file.path(raw.video.folder, paste0(avi_files, ".avi")), mc.cores = mc.cores)
   width <- data.frame(
     file = gsub(pattern = "\\.avi$", "", names(width)),
     width = width
@@ -99,7 +96,7 @@ create_overlays_subtitle <- function(
   rm(width)
 
   # get height for all avi files and add to traj.data
-  height <- get_height_avi(file.path(avi.video.folder, paste0(avi_files, ".avi")), mc.cores = 6)
+  height <- get_height_avi(file.path(raw.video.folder, paste0(avi_files, ".avi")), mc.cores = 6)
   height <- data.frame(
     file = gsub(pattern = "\\.avi$", "", names(height)),
     height = height
@@ -157,9 +154,12 @@ create_overlays_subtitle <- function(
 
   # Make the folder to store the subtitle files, and generate the subtitle file for each file with observed cells
   dir.create(file.path(to.data, temp.overlay.folder), showWarnings = FALSE)
+  message("<<< BEGIN mclapply subtitles")
+  message("    mc.cores = ", mc.cores)
   parallel::mclapply(
     unique(traj.data$file),
     function(i) {
+      message("    BEGIN processing ", i)
       traj_id <- which(traj.data$file == i)
       if (overlay.type == "circle") {
         ssa <- c(
@@ -182,39 +182,52 @@ create_overlays_subtitle <- function(
         ssa,
         file.path(to.data, temp.overlay.folder, paste0(i, ".ssa"))
       )
+      message("    END processing ", i)
     },
     mc.cores = mc.cores
   )
-
+  message(">>> END mclapply subtitles")
+  
   # Create a folder to store the overlay videos
   dir.create(file.path(to.data, overlay.folder), showWarnings = FALSE)
 
   # For each of the files with observed cells,
   # burn the subtitles onto the avi file,
   # and store the resulting file in the overlay folder
-  for (file in unique(traj.data$file)) {
-    avi_in <- normalizePath(
-      file.path(avi.video.folder, paste0(file, ".avi"))
-    )
-    ssa_in <-  normalizePath(
-      file.path(to.data, temp.overlay.folder, paste0(file, ".ssa"))
-    )
-    avi_out <-  normalizePath(
-      file.path(to.data, overlay.folder, paste0(file, ".avi")),
-      mustWork = FALSE
-    )
-    arguments <- paste0(
-      " -i '", avi_in, "'",
-      " -vf 'ass=", ssa_in, "'",
-      " -b:v 50M",
-      " -c:a copy",
-      " -y '", avi_out, "'"
-    )
-    system2(
-      command = ffmpeg,
-      args = arguments
-    )
-  }
-
+  
+  message("<<< BEGIN mclapply burn-in")
+  message("    mc.cores = ", mc.cores)
+  result <- parallel::mclapply(
+    unique(traj.data$file),
+    function(file) {
+      message("    BEGIN processing ", i)
+      avi_in <- normalizePath(
+        file.path(raw.video.folder, paste0(file, ".avi"))
+      )
+      ssa_in <-  normalizePath(
+        file.path(to.data, temp.overlay.folder, paste0(file, ".ssa"))
+      )
+      avi_out <-  normalizePath(
+        file.path(to.data, overlay.folder, paste0(file, ".avi")),
+        mustWork = FALSE
+      )
+      arguments <- paste0(
+        " -i '", avi_in, "'",
+        " -vf 'ass=", ssa_in, "'",
+        " -b:v 50M",
+        " -c:a copy",
+        " -y '", avi_out, "'"
+      )
+      result <- system2(
+        command = ffmpeg,
+        args = arguments
+      )
+      message("    END processing ", i)
+      return(result)
+    },
+    mc.cores = mc.cores
+  )
+  message(">>> END mclapply burn-in")
+  
   return(NULL)
 }

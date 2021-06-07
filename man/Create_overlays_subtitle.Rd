@@ -7,11 +7,10 @@
 create_overlays_subtitle(
   to.data = par_to.data(),
   merged.data.folder = par_merged.data.folder(),
-  avi.video.folder = par_raw.video.folder(),
+  raw.video.folder = par_raw.video.folder(),
   temp.overlay.folder = par_temp.overlay.folder(),
   overlay.folder = par_overlay.folder(),
-  difference.lag = par_difference.lag(),
-  ffmpeg = "ffmpeg",
+  ffmpeg = par_ffmpeg(),
   master = par_master(),
   overlay.type = "both",
   mc.cores = par_mc.cores()
@@ -20,29 +19,24 @@ create_overlays_subtitle(
 \arguments{
 \item{to.data}{path to the working directory}
 
+\item{merged.data.folder}{directory where the global database is saved}
+
 \item{temp.overlay.folder}{temporary directory to save the overlay subtitles (.ssa files)}
 
 \item{overlay.folder}{directory where the overlay videos are saved}
 
-\item{overlay.type}{option for the overlays. Overlays can either be shown as
-trajectory numbers ("number"), circle ("circle") or both ("both"). Defaults to "both".}
+\item{ffmpeg}{command to run ffmpeg. The default is \code{par_ffmpeg()}.  It can include a path.}
 
-\item{traj.data}{filtered trajectory file}
+\item{master}{name of the master file. Defaults to \code{par_master()}}
+
+\item{overlay.type}{option for the overlays. Overlays can either be shown as}
+
+\item{mc.cores}{number of cores toi be used for parallel execution. Defaults to \code{par_mac.cores()}}
 
 \item{raw.avi.folder}{path to the folder containing the converted and compressed .avi files}
-
-\item{fps}{framerate in the original video}
-
-\item{vid.length}{duration in seconds of the video}
-
-\item{width}{width in pixels of the original videos}
-
-\item{height}{height in pixels of the original video}
-
-\item{tools.path}{path to the dependency folder}
 }
 \value{
-returns nothing (NULL)
+returns invisibly \code{NULL}
 }
 \description{
 Function creates subtitle commands for every cell in every frame of the videos, using the x/y coordinates.

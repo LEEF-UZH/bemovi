@@ -413,6 +413,8 @@ convert_cxd_to_avi <- function(
     ) 
     return(invisible(NULL))
   } else if (length(cxd_file) > 1) {
+    message("<<< BEGIN mclapply convert to avi")
+    message("    mc.cores = ", mc.cores)
     parallel::mclapply(
       cxd_file,
       convert_cxd_to_avi,
@@ -422,9 +424,11 @@ convert_cxd_to_avi <- function(
       showinf = showinf,
       mc.cores = mc.cores
     )
+    message(">>> END mclapply convert to avi")
     return(invisible(NULL))
   }
   
+  message("    BEGIN converting ", cxd_file)
   cxd_metadata_file <- file.path(
     avi_dir, 
     paste0(basename(cxd_file), ".metadata")
@@ -443,7 +447,7 @@ convert_cxd_to_avi <- function(
   
   on.exit({unlink(tmpdir)})
 
-  message("Extracting Metadata from ", cxd_file, " -->> ", cxd_metadata_tmp)
+  message("      Extracting Metadata from ", cxd_file, " -->> ", cxd_metadata_tmp)
   arguments <- paste0(
     " -nopix",
     " -no-upgrade",
@@ -455,7 +459,7 @@ convert_cxd_to_avi <- function(
     stdout = cxd_metadata_tmp
   )
   
-  message("Converting ", cxd_file, " -->> ", avi_conv_tmp)
+  message("      Converting ", cxd_file, " -->> ", avi_conv_tmp)
   arguments <- paste0(
     " -overwrite",
     " -no-upgrade ", 
@@ -468,7 +472,7 @@ convert_cxd_to_avi <- function(
     stdout = NULL
   )
 
-  message("Compressing ", avi_conv_tmp, " -->>", avi_tmp)
+  message("      Compressing ", avi_conv_tmp, " -->>", avi_tmp)
   fps <- get_fps_cxd(cxd_file)
   arguments <- paste0(
     " -i '", avi_conv_tmp, "'",
@@ -486,7 +490,7 @@ convert_cxd_to_avi <- function(
     stdout = NULL
   )
 
-  message("Moving ", basename(avi_tmp), " -->> ", basename(avi_tmp))
+  message("      Moving ", basename(avi_tmp), " -->> ", basename(avi_tmp))
   dir.create(dirname(avi_file), showWarnings = FALSE, recursive = TRUE)
   file.rename(
     from = avi_tmp,
@@ -496,6 +500,7 @@ convert_cxd_to_avi <- function(
     from = cxd_metadata_tmp,
     to = cxd_metadata_file
   )
+  message("    END converting ", cxd_file)
   
   invisible(NULL)
 }
