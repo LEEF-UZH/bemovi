@@ -4,7 +4,7 @@
 \alias{get_fps_cxd}
 \title{Extract fps (frames per second) from the \code{.cxd} file}
 \usage{
-get_fps_cxd(file, showinf = par + showinf(), mc.cores = par_mc.cores())
+get_fps_cxd(file, showinf = par_showinf(), mc.cores = par_mc.cores())
 }
 \arguments{
 \item{file}{file name, of the \code{.cxd} file}

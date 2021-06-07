@@ -71,7 +71,7 @@ get_delays_cxd <- function(
 #' @examples
 get_fps_cxd <- function(
   file,
-  showinf = par+showinf(),
+  showinf = par_showinf(),
   mc.cores = par_mc.cores()
 ) {
   if (length(file) != 1) {
@@ -80,7 +80,7 @@ get_fps_cxd <- function(
   
   file <- normalizePath(file)
   
-  x <- get_delays_cxd(file, showinf = showinf, mc.cores)
+  x <- get_delays_cxd(file, showinf = showinf, mc.cores = mc.cores)
   fps <- 1/mean(x)
   return(fps)
 }
@@ -378,7 +378,8 @@ get_width_avi <- function(
 #' compress these to lossles avi
 #' @param cxd_file one or more \code{cxd} file to be converted or a directory with \code{.cxd} files.
 #' @param avi_dir directory for the converted \code{cxd} files and the metadata files
-#' @param compression_level compression level - defaults to 5
+#' @param compression_level compression level - defaults to 6. 
+#'   Smaller numbers: faster and larger, larger numbers (maximum 9) smaller and slower.
 #' @param ffmpeg execuable ffmpeg. May have to be including path.
 #' @param bfconvert executable bfconvert from bftools. May have to be including path.
 #' @param showinf executable showinf from bftools. May have to be including path.
@@ -391,7 +392,7 @@ get_width_avi <- function(
 convert_cxd_to_avi <- function(
   cxd_file,
   avi_dir,
-  compression_level = 5,
+  compression_level = 6,
   ffmpeg = par_ffmpeg(),
   bfconvert = par_bfconvert(),
   showinf = par_showinf(),
@@ -444,7 +445,8 @@ convert_cxd_to_avi <- function(
     avi_dir,
     gsub("\\.cxd$", ".avi", basename(cxd_file))
   )
-  avi_conv_tmp <- file.path(tmpdir, paste0("conv_", basename(avi_file)))
+  tiff_dir_tmp <- file.path(tmpdir, "tiff")
+  dir.create(tiff_dir_tmp)
   avi_tmp <- file.path(tmpdir, basename(avi_file))
   cxd_metadata_tmp <- file.path(tmpdir, basename(cxd_metadata_file))
   
@@ -462,12 +464,13 @@ convert_cxd_to_avi <- function(
     stdout = cxd_metadata_tmp
   )
   
-  message("      Converting ", basename(cxd_file), " -->> ", basename(avi_conv_tmp))
+  message("      Converting ", basename(cxd_file), " -->> tiffs")
   arguments <- paste0(
     " -overwrite",
     " -no-upgrade ", 
     " '", cxd_file, "'",
-    " '", avi_conv_tmp, "'"
+    " -padded",
+    " '", file.path(tiff_dir_tmp, "frame%t.tiff"), "'"
   )
   system2(
     command = bfconvert,
@@ -475,17 +478,16 @@ convert_cxd_to_avi <- function(
     stdout = NULL
   )
 
-  message("      Compressing ", avi_conv_tmp, " -->>", avi_tmp)
+  message("      Converting tiffs", " -->>", avi_tmp)
   fps <- get_fps_cxd(cxd_file, showinf = showinf)
   arguments <- paste0(
-    " -i '", avi_conv_tmp, "'",
-    " -y",
-    " -vcodec png",
-    " -vf 'setpts=N/", fps, "/TB'", 
-    " -r ", fps, 
+    " -framerate ", fps, 
+    " -pattern_type glob", 
+    " -i  '", file.path(tiff_dir_tmp, "frame*.tiff"), "'", 
+    " -vcodec png", 
+    " -vtag 'PNG '", 
     " -compression_level ", compression_level,
-    " -vtag 'PNG ' ",
-    " '", avi_tmp, "'"
+    " ", avi_tmp
   )
   system2(
     command = ffmpeg,
@@ -499,6 +501,7 @@ convert_cxd_to_avi <- function(
     from = avi_tmp,
     to = avi_file
   )
+  message("      Moving ", basename(cxd_metadata_tmp), " -->> ", basename(cxd_metadata_file))
   file.rename(
     from = cxd_metadata_tmp,
     to = cxd_metadata_file

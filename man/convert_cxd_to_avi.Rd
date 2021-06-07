@@ -7,7 +7,7 @@
 convert_cxd_to_avi(
   cxd_file,
   avi_dir,
-  compression_level = 5,
+  compression_level = 6,
   ffmpeg = par_ffmpeg(),
   bfconvert = par_bfconvert(),
   showinf = par_showinf(),
@@ -19,7 +19,8 @@ convert_cxd_to_avi(
 
 \item{avi_dir}{directory for the converted \code{cxd} files and the metadata files}
 
-\item{compression_level}{compression level - defaults to 5}
+\item{compression_level}{compression level - defaults to 6. 
+Smaller numbers: faster and larger, larger numbers (maximum 9) smaller and slower.}
 
 \item{ffmpeg}{execuable ffmpeg. May have to be including path.}
 
