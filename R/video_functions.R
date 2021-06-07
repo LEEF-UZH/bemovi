@@ -11,6 +11,7 @@
 #' @examples
 get_delays_cxd <- function(
   file,
+  showinf = par_showinf(),
   mc.cores = par_mc.cores()
 ) {
   file <- normalizePath(file)
@@ -43,7 +44,7 @@ get_delays_cxd <- function(
     " '", file, "'"
   )
   md <- system2(
-    command = par_showinf(),
+    command = showinf,
     args = arguments,
     stdout = TRUE
   )  
@@ -70,6 +71,7 @@ get_delays_cxd <- function(
 #' @examples
 get_fps_cxd <- function(
   file,
+  showinf = par+showinf(),
   mc.cores = par_mc.cores()
 ) {
   if (length(file) != 1) {
@@ -78,7 +80,7 @@ get_fps_cxd <- function(
   
   file <- normalizePath(file)
   
-  x <- get_delays_cxd(file, mc.cores)
+  x <- get_delays_cxd(file, showinf = showinf, mc.cores)
   fps <- 1/mean(x)
   return(fps)
 }
@@ -97,6 +99,7 @@ get_fps_cxd <- function(
 #' @examples
 get_fps_avi <- function(
   file,
+  ffmpeg = par_ffmpeg(),
   mc.cores = par_mc.cores()
 ) {
 
@@ -126,7 +129,7 @@ get_fps_avi <- function(
   )
   output <- suppressWarnings(
     system2(
-      command = par_ffmpeg(),
+      command = ffmpeg,
       args = arguments,
       stderr = TRUE
     )
@@ -165,6 +168,7 @@ get_fps_avi <- function(
 #' @examples
 get_duration_avi <- function(
   file,
+  ffmpeg = par_ffmpeg(),
   mc.cores = par_mc.cores()
 ) {
 
@@ -193,7 +197,7 @@ get_duration_avi <- function(
   )
   output <- suppressWarnings(
     system2(
-      command = par_ffmpeg(),
+      command = ffmpeg,
       args = arguments,
       stderr = TRUE
     )
@@ -237,7 +241,7 @@ get_duration_avi <- function(
 #' @examples
 get_height_avi <- function(
   file,
-  
+  ffmpeg = par_ffmpeg(),
   mc.cores = par_mc.cores()
 ) {
   
@@ -266,7 +270,7 @@ get_height_avi <- function(
   )
   output <- suppressWarnings(
     system2(
-      command = par_ffmpeg(),
+      command = ffmpeg,
       args = arguments,
       stderr = TRUE
     )
@@ -309,6 +313,7 @@ get_height_avi <- function(
 #' @examples
 get_width_avi <- function(
   file,
+  ffmpeg = par_ffmpeg(),
   mc.cores = par_mc.cores()
 ) {
   
@@ -337,7 +342,7 @@ get_width_avi <- function(
   )
   output <- suppressWarnings(
     system2(
-      command = par_ffmpeg(),
+      command = ffmpeg,
       args = arguments,
       stderr = TRUE
     )
@@ -392,18 +397,16 @@ convert_cxd_to_avi <- function(
   showinf = par_showinf(),
   mc.cores = par_mc.cores()
 ) {
-  if (length(avi_dir) != 1) {
-    stop(" 'avi_dir' has to be of length 1!")
-  }
-  
+
   cxd_file <- normalizePath(cxd_file)
-  avi_dir <- normalizePath(avi_dir)
+  avi_dir <- normalizePath(avi_dir, mustWork = FALSE)
   
-  if (dir.exists()) {
+  if (length(cxd_file) == 1 && dir.exists(cxd_file)) {
     convert_cxd_to_avi(
       cxd_file = list.files(
         cxd_file, 
-        pattern = "\\.cxd$"
+        pattern = "\\.cxd$",
+        full.names = TRUE
       ),
       avi_dir = avi_dir,
       ffmpeg = ffmpeg,
@@ -428,7 +431,7 @@ convert_cxd_to_avi <- function(
     return(invisible(NULL))
   }
   
-  message("    BEGIN converting ", cxd_file)
+  message("    BEGIN converting ", basename(cxd_file))
   cxd_metadata_file <- file.path(
     avi_dir, 
     paste0(basename(cxd_file), ".metadata")
@@ -459,7 +462,7 @@ convert_cxd_to_avi <- function(
     stdout = cxd_metadata_tmp
   )
   
-  message("      Converting ", cxd_file, " -->> ", avi_conv_tmp)
+  message("      Converting ", basename(cxd_file), " -->> ", basename(avi_conv_tmp))
   arguments <- paste0(
     " -overwrite",
     " -no-upgrade ", 
@@ -473,7 +476,7 @@ convert_cxd_to_avi <- function(
   )
 
   message("      Compressing ", avi_conv_tmp, " -->>", avi_tmp)
-  fps <- get_fps_cxd(cxd_file)
+  fps <- get_fps_cxd(cxd_file, showinf = showinf)
   arguments <- paste0(
     " -i '", avi_conv_tmp, "'",
     " -y",

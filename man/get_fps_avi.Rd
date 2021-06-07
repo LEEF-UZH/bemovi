@@ -4,7 +4,7 @@
 \alias{get_fps_avi}
 \title{Extract fps (frames per second) using ffmpeg}
 \usage{
-get_fps_avi(file, mc.cores = par_mc.cores())
+get_fps_avi(file, ffmpeg = par_ffmpeg(), mc.cores = par_mc.cores())
 }
 \arguments{
 \item{file}{file name(s), of the video (\code{avi}) file(s) or directory in which the video files are}

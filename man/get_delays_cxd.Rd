@@ -4,7 +4,7 @@
 \alias{get_delays_cxd}
 \title{Extract delays from the \code{.cxd} file}
 \usage{
-get_delays_cxd(file, mc.cores = par_mc.cores())
+get_delays_cxd(file, showinf = par_showinf(), mc.cores = par_mc.cores())
 }
 \arguments{
 \item{file}{file name, of the \code{.cxd} file}

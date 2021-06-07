@@ -119,37 +119,47 @@ create_overlays_subtitle <- function(
   traj.data$ID.vid <- traj.data$trajectory
 
   #  Generate the header for the subtitle file
-  traj.data$header <- paste(
-    "[Script Info]", "ScriptType: v4.00+", "Collisions: Normal",
-    paste0("PlayResX: ", traj.data$width),
-    paste0("PlayResY: ", traj.data$height),
-    paste0("Timer: ", traj.data$duration),
-    "",
-    "[V4+ Styles]",
-    "Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, ",
+  font_size <- 24
+  circle_size <- 120
+  traj.data$header <- paste0(
+    "[Script Info]",  "\n",
+    "ScriptType: v4.00+",  "\n",
+    "Collisions: Normal", "\n",
+    "PlayResX: ", traj.data$width, "\n",
+    "PlayResY: ", traj.data$height, "\n",
+    "Timer: ", traj.data$duration, "\n",
+    "\n",
+    "[V4+ Styles]", "\n",
+    "Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour,",
     " Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle,",
-    " BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding",
-    "Style: Numbers,Arial,24,65535,65535,65535,65535,0,0,0,0,100,100,0,0.00,1,1,0,2,0,0,0,0",
-    "Style: Circle,Arial,80,&H0000FF,&H0000FF,&H0000FF,&H0000FF,-1,0,0,0,100,100,0,0.00,1,1,0,2,0,0,0,0",
-    "",
-    "[Events]",
-    "Format: Layer, Start, End, Style, Actor, MarginL, MarginR, MarginV, Effect, Text",
-    sep = "\n"
+    " BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding", "\n",
+    "Style: Numbers,Arial,", font_size, ",65535,65535,65535,65535,0,0,0,0,100,100,0,0.00,1,1,0,2,0,0,0,0", "\n",
+    "Style: Circle,Arial,", circle_size, ",&H0000FF,&H0000FF,&H0000FF,&H0000FF,0,0,0,0,100,100,0,0.00,1,1,0,2,0,0,0,0", "\n",
+    "\n",
+    "[Events]", "\n",
+    "Format: Layer, Start, End, Style, Actor, MarginL, MarginR, MarginV, Effect, Text", "\n"
   )
 
   # Generate a subtitle line for each observation
   traj.data$subtitle_number <- paste0(
     "Dialogue: 2,0:00:", sprintf("%05.2f", traj.data$starttime), ",0:00:", sprintf("%05.2f", traj.data$endtime),
-    ",Numbers,,0000,0000,0000,,{\\pos(", abs(round(traj.data$X)), ", ", abs(round(traj.data$Y)), ")}", traj.data$ID.vid
+    ",Numbers,,0000,0000,0000,,",
+    "{\\pos(", 
+    abs(round(traj.data$X)), ", ", 
+    abs(round(traj.data$Y)), 
+    ")}", traj.data$ID.vid
   )
   traj.data$subtitle_circle <- paste0(
     "Dialogue: 1,0:00:", sprintf("%05.2f", traj.data$starttime), ",0:00:", sprintf("%05.2f", traj.data$endtime),
-    ",Circle,,0000,0000,0000,,{\\pos(", abs(round(traj.data$X)), ", ",
+    ",Circle,,0000,0000,0000,,",
+    "{\\pos(", 
+    abs(round(traj.data$X)), ", ",
     ifelse(
       abs(round(traj.data$Y)) < traj.data$height,
-      abs(round(traj.data$Y)) + 40,
+      abs(round(traj.data$Y)) + circle_size / 2,
       abs(round(traj.data$Y))
-    ), ")}", "O"
+    ), 
+    ")}", "O"
   )
 
   # Make the folder to store the subtitle files, and generate the subtitle file for each file with observed cells
@@ -187,20 +197,20 @@ create_overlays_subtitle <- function(
     mc.cores = mc.cores
   )
   message(">>> END mclapply subtitles")
-  
+
   # Create a folder to store the overlay videos
   dir.create(file.path(to.data, overlay.folder), showWarnings = FALSE)
 
   # For each of the files with observed cells,
   # burn the subtitles onto the avi file,
   # and store the resulting file in the overlay folder
-  
+
   message("<<< BEGIN mclapply burn-in")
   message("    mc.cores = ", mc.cores)
   result <- parallel::mclapply(
     unique(traj.data$file),
     function(file) {
-      message("    BEGIN processing ", i)
+      message("    BEGIN processing ", file)
       avi_in <- normalizePath(
         file.path(raw.video.folder, paste0(file, ".avi"))
       )
@@ -214,20 +224,20 @@ create_overlays_subtitle <- function(
       arguments <- paste0(
         " -i '", avi_in, "'",
         " -vf 'ass=", ssa_in, "'",
-        " -b:v 50M",
-        " -c:a copy",
+        # " -b:v 50M",
+        # " -codec:a copy",
         " -y '", avi_out, "'"
       )
       result <- system2(
         command = ffmpeg,
         args = arguments
       )
-      message("    END processing ", i)
+      message("    END processing ", file)
       return(result)
     },
     mc.cores = mc.cores
   )
   message(">>> END mclapply burn-in")
-  
+
   return(NULL)
 }

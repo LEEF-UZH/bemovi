@@ -4,7 +4,7 @@
 \alias{get_duration_avi}
 \title{Extract duration in seconds using ffmpeg}
 \usage{
-get_duration_avi(file, mc.cores = par_mc.cores())
+get_duration_avi(file, ffmpeg = par_ffmpeg(), mc.cores = par_mc.cores())
 }
 \arguments{
 \item{file}{file name, of the video file}

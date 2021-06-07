@@ -4,7 +4,7 @@
 \alias{get_width_avi}
 \title{Extract width in pixels using ffmpeg}
 \usage{
-get_width_avi(file, mc.cores = par_mc.cores())
+get_width_avi(file, ffmpeg = par_ffmpeg(), mc.cores = par_mc.cores())
 }
 \arguments{
 \item{file}{file name, of the video file}
