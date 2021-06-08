@@ -488,7 +488,7 @@ convert_cxd_to_avi <- function(
   arguments <- paste0(
     " -framerate ", fps, 
     " -pattern_type glob", 
-    " -i  '", file.path(tiff_dir_tmp, "frame*.tiff"), "'", 
+    " -i  '", file.path(tiff_dir_tmp, "*.tiff"), "'", 
     " -vcodec png", 
     " -vtag 'PNG '", 
     " -compression_level ", compression_level,
@@ -502,7 +502,7 @@ convert_cxd_to_avi <- function(
 
   message("      Moving ", basename(avi_tmp), " -->> ", basename(avi_tmp))
   dir.create(dirname(avi_file), showWarnings = FALSE, recursive = TRUE)
-  file.rename(
+  file.copy(
     from = avi_tmp,
     to = avi_file
   )
