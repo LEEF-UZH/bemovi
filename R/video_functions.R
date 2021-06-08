@@ -507,7 +507,7 @@ convert_cxd_to_avi <- function(
     to = avi_file
   )
   message("      Moving ", basename(cxd_metadata_tmp), " -->> ", basename(cxd_metadata_file))
-  file.rename(
+  file.copy(
     from = cxd_metadata_tmp,
     to = cxd_metadata_file
   )
