@@ -10,6 +10,7 @@ create_overlays_subtitle(
   raw.video.folder = par_raw.video.folder(),
   temp.overlay.folder = par_temp.overlay.folder(),
   overlay.folder = par_overlay.folder(),
+  label = "trajectory",
   ffmpeg = par_ffmpeg(),
   master = par_master(),
   overlay.type = "both",
@@ -24,6 +25,9 @@ create_overlays_subtitle(
 \item{temp.overlay.folder}{temporary directory to save the overlay subtitles (.ssa files)}
 
 \item{overlay.folder}{directory where the overlay videos are saved}
+
+\item{label}{column to be used to label the particle. 
+Default is \code{"trajectory"}, other useful might be \code{"species"}}
 
 \item{ffmpeg}{command to run ffmpeg. The default is \code{par_ffmpeg()}.  It can include a path.}
 

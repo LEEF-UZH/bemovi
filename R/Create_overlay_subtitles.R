@@ -7,6 +7,8 @@
 #' @param raw.avi.folder path to the folder containing the converted and compressed .avi files
 #' @param temp.overlay.folder  temporary directory to save the overlay subtitles (.ssa files)
 #' @param overlay.folder directory where the overlay videos are saved
+#' @param label column to be used to label the particle. 
+#'   Default is \code{"trajectory"}, other useful might be \code{"species"}
 #' @param ffmpeg command to run ffmpeg. The default is \code{par_ffmpeg()}.  It can include a path.
 #' @param master name of the master file. Defaults to \code{par_master()}
 #' @param overlay.type option for the overlays. Overlays can either be shown as
@@ -25,7 +27,7 @@ create_overlays_subtitle <- function(
   # height NOT NEEDED ANYMORE
   # difference.lag = par_difference.lag(),
   # type = "traj",
-  # predict_spec = FALSE,
+  label = "trajectory",
   ffmpeg = par_ffmpeg(),
   ## new arguments
   master = par_master(),
@@ -116,7 +118,6 @@ create_overlays_subtitle <- function(
   # as well as the numeric ID of the observation
   traj.data$starttime <- traj.data$frame * (1 / traj.data$fps)
   traj.data$endtime <- traj.data$starttime + (1 / traj.data$fps)
-  traj.data$ID.vid <- traj.data$trajectory
 
   #  Generate the header for the subtitle file
   font_size <- 24
@@ -147,7 +148,8 @@ create_overlays_subtitle <- function(
     "{\\pos(", 
     abs(round(traj.data$X)), ", ", 
     abs(round(traj.data$Y)), 
-    ")}", traj.data$ID.vid
+    ")}", 
+    traj.data[[label]]
   )
   traj.data$subtitle_circle <- paste0(
     "Dialogue: 1,0:00:", sprintf("%05.2f", traj.data$starttime), ",0:00:", sprintf("%05.2f", traj.data$endtime),
@@ -159,7 +161,8 @@ create_overlays_subtitle <- function(
       abs(round(traj.data$Y)) + circle_size / 2,
       abs(round(traj.data$Y))
     ), 
-    ")}", "O"
+    ")}", 
+    "O"
   )
 
   # Make the folder to store the subtitle files, and generate the subtitle file for each file with observed cells
