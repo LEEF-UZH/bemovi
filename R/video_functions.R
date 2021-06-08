@@ -383,6 +383,8 @@ get_width_avi <- function(
 #' @param ffmpeg execuable ffmpeg. May have to be including path.
 #' @param bfconvert executable bfconvert from bftools. May have to be including path.
 #' @param showinf executable showinf from bftools. May have to be including path.
+#' @param delete_cxd if \code{TRUE}, the \code{.cxd} file will be deleted after successful conversion. 
+#'   Default: \code{FALSE}
 #' @param mc.cores Number of cores to be used when more than one xd file is given.
 #' @return returns nothing (NULL)
 #' 
@@ -396,6 +398,7 @@ convert_cxd_to_avi <- function(
   ffmpeg = par_ffmpeg(),
   bfconvert = par_bfconvert(),
   showinf = par_showinf(),
+  delete_cxd = FALSE,
   mc.cores = par_mc.cores()
 ) {
 
@@ -450,7 +453,9 @@ convert_cxd_to_avi <- function(
   avi_tmp <- file.path(tmpdir, basename(avi_file))
   cxd_metadata_tmp <- file.path(tmpdir, basename(cxd_metadata_file))
   
-  on.exit({unlink(tmpdir)})
+  on.exit({
+    unlink(tmpdir)
+  })
 
   message("      Extracting Metadata from ", cxd_file, " -->> ", cxd_metadata_tmp)
   arguments <- paste0(
@@ -506,6 +511,10 @@ convert_cxd_to_avi <- function(
     from = cxd_metadata_tmp,
     to = cxd_metadata_file
   )
+  if (delete_cxd) {
+    message("      Deleting ", cxd_file)
+    unlink(cxd_file)
+  }
   message("    END converting ", cxd_file)
   
   invisible(NULL)

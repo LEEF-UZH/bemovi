@@ -5,11 +5,7 @@
 \title{parameter executable ffmpeg}
 \usage{
 par_ffmpeg(value)
-
-par_ffmpeg(value)
 }
 \description{
-parameter executable ffmpeg
-
 parameter executable ffmpeg
 }

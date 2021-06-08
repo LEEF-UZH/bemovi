@@ -91,7 +91,7 @@ print_parameter <- function(
 
 ## Folder structure
 #' @name par_to.data
-#' @title parameter to.data
+#' @title parameter to.data / the base folder
 #' @export
 par_to.data <- par_template
 par_to.data(NULL)
@@ -184,7 +184,7 @@ par_IJ.path(NULL)
 #' @title parameter executable ffmpeg
 #' @export
 par_ffmpeg <- par_template
-par_ffmpeg("ffmpeg")
+par_ffmpeg("tools/ffmpeg")
 #
 
 #
@@ -192,7 +192,7 @@ par_ffmpeg("ffmpeg")
 #' @title parameter executable bfconvert of the bftools commandline tools
 #' @export
 par_bfconvert <- par_template
-par_bfconvert("bfconvert")
+par_bfconvert("tools/bftools/bfconvert")
 #
 
 #
@@ -200,16 +200,9 @@ par_bfconvert("bfconvert")
 #' @title parameter executable showinf of the bftools commandline tools
 #' @export
 par_showinf <- par_template
-par_showinf("showinf")
+par_showinf("tools/bftools/showinf")
 #
 
-#
-#' @name par_ffmpeg
-#' @title parameter executable ffmpeg
-#' @export
-par_ffmpeg <- par_template
-par_ffmpeg("ffmpeg")
-#
 
 # Other Parameter ---------------------------------------------------------
 
