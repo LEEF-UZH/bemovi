@@ -437,13 +437,17 @@ convert_cxd_to_avi <- function(
     return(invisible(NULL))
   }
   
+
+# The magic begins here ---------------------------------------------------
+
+  
   message("    BEGIN converting ", basename(cxd_file))
   cxd_metadata_file <- file.path(
     avi_dir, 
     paste0(basename(cxd_file), ".metadata")
   )
   
-  tmpdir <- tempfile()
+  tmpdir <- file.path(dirname(avi_dir), "tmp") # tempfile()
   dir.create(tmpdir, showWarnings = FALSE, recursive = TRUE)
 
   avi_file <- file.path(
