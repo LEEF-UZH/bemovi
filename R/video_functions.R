@@ -494,7 +494,7 @@ convert_cxd_to_avi <- function(
     " -vcodec png", 
     " -vtag 'PNG '", 
     " -compression_level ", compression_level,
-    " ", avi_tmp
+    " ", avi_file
   )
   system2(
     command = ffmpeg,
@@ -502,12 +502,12 @@ convert_cxd_to_avi <- function(
     stdout = NULL
   )
 
-  message("      Moving ", basename(avi_tmp), " -->> ", basename(avi_tmp))
-  dir.create(dirname(avi_file), showWarnings = FALSE, recursive = TRUE)
-  file.copy(
-    from = avi_tmp,
-    to = avi_file
-  )
+  # message("      Moving ", basename(avi_tmp), " -->> ", basename(avi_file))
+  # dir.create(dirname(avi_file), showWarnings = FALSE, recursive = TRUE)
+  # file.copy(
+  #   from = avi_tmp,
+  #   to = avi_file
+  # )
   message("      Moving ", basename(cxd_metadata_tmp), " -->> ", basename(cxd_metadata_file))
   file.copy(
     from = cxd_metadata_tmp,
