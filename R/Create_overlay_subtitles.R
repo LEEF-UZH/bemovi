@@ -7,7 +7,7 @@
 #' @param raw.avi.folder path to the folder containing the converted and compressed .avi files
 #' @param temp.overlay.folder  temporary directory to save the overlay subtitles (.ssa files)
 #' @param overlay.folder directory where the overlay videos are saved
-#' @param label column to be used to label the particle. 
+#' @param label column to be used to label the particle.
 #'   Default is \code{"trajectory"}, other useful might be \code{"species"}
 #' @param ffmpeg command to run ffmpeg. The default is \code{par_ffmpeg()}.  It can include a path.
 #' @param master name of the master file. Defaults to \code{par_master()}
@@ -98,7 +98,7 @@ create_overlays_subtitle <- function(
   rm(width)
 
   # get height for all avi files and add to traj.data
-  height <- get_height_avi(file.path(raw.video.folder, paste0(avi_files, ".avi")), mc.cores = 6)
+  height <- get_height_avi(file.path(raw.video.folder, paste0(avi_files, ".avi")), mc.cores = mc.cores)
   height <- data.frame(
     file = gsub(pattern = "\\.avi$", "", names(height)),
     height = height
@@ -145,23 +145,23 @@ create_overlays_subtitle <- function(
   traj.data$subtitle_number <- paste0(
     "Dialogue: 2,0:00:", sprintf("%05.2f", traj.data$starttime), ",0:00:", sprintf("%05.2f", traj.data$endtime),
     ",Numbers,,0000,0000,0000,,",
-    "{\\pos(", 
-    abs(round(traj.data$X)), ", ", 
-    abs(round(traj.data$Y)), 
-    ")}", 
+    "{\\pos(",
+    abs(round(traj.data$X)), ", ",
+    abs(round(traj.data$Y)),
+    ")}",
     traj.data[[label]]
   )
   traj.data$subtitle_circle <- paste0(
     "Dialogue: 1,0:00:", sprintf("%05.2f", traj.data$starttime), ",0:00:", sprintf("%05.2f", traj.data$endtime),
     ",Circle,,0000,0000,0000,,",
-    "{\\pos(", 
+    "{\\pos(",
     abs(round(traj.data$X)), ", ",
     ifelse(
       abs(round(traj.data$Y)) < traj.data$height,
       abs(round(traj.data$Y)) + circle_size / 2,
       abs(round(traj.data$Y))
-    ), 
-    ")}", 
+    ),
+    ")}",
     "O"
   )
 

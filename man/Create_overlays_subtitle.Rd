@@ -26,7 +26,7 @@ create_overlays_subtitle(
 
 \item{overlay.folder}{directory where the overlay videos are saved}
 
-\item{label}{column to be used to label the particle. 
+\item{label}{column to be used to label the particle.
 Default is \code{"trajectory"}, other useful might be \code{"species"}}
 
 \item{ffmpeg}{command to run ffmpeg. The default is \code{par_ffmpeg()}.  It can include a path.}

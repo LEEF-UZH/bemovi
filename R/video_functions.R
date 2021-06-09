@@ -416,6 +416,7 @@ convert_cxd_to_avi <- function(
       ffmpeg = ffmpeg,
       bfconvert = bfconvert,
       showinf = showinf,
+      delete_cxd = delete_cxd,
       mc.cores = mc.cores
     ) 
     return(invisible(NULL))
@@ -429,6 +430,7 @@ convert_cxd_to_avi <- function(
       ffmpeg = ffmpeg,
       bfconvert = bfconvert,
       showinf = showinf,
+      delete_cxd = delete_cxd,
       mc.cores = mc.cores
     )
     message(">>> END mclapply convert to avi")
