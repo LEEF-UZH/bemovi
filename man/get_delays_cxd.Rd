@@ -15,6 +15,6 @@ get_delays_cxd(file, showinf = par_showinf(), mc.cores = par_mc.cores())
 a vector of the length of number of frames -1 specifying the delay between the images taken.
 }
 \description{
-This function reads the metadata from the \code{.cxd} file and returns the 
+This function reads the metadata from the \code{.cxd} file and returns the
 delays between the images were taken.
 }

@@ -33,7 +33,7 @@ Default is \code{"trajectory"}, other useful might be \code{"species"}}
 
 \item{master}{name of the master file. Defaults to \code{par_master()}}
 
-\item{overlay.type}{option for the overlays. Overlays can either be shown as}
+\item{overlay.type}{option for the overlays. Overlays can either be shown as \code{"label"}, \code{"circle"} or \code{"both"}}
 
 \item{mc.cores}{number of cores toi be used for parallel execution. Defaults to \code{par_mac.cores()}}
 

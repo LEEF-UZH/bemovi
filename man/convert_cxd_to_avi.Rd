@@ -20,7 +20,7 @@ convert_cxd_to_avi(
 
 \item{avi_dir}{directory for the converted \code{cxd} files and the metadata files}
 
-\item{compression_level}{compression level - defaults to 6. 
+\item{compression_level}{compression level - defaults to 6.
 Smaller numbers: faster and larger, larger numbers (maximum 9) smaller and slower.}
 
 \item{ffmpeg}{execuable ffmpeg. May have to be including path.}
@@ -29,7 +29,7 @@ Smaller numbers: faster and larger, larger numbers (maximum 9) smaller and slowe
 
 \item{showinf}{executable showinf from bftools. May have to be including path.}
 
-\item{delete_cxd}{if \code{TRUE}, the \code{.cxd} file will be deleted after successful conversion. 
+\item{delete_cxd}{if \code{TRUE}, the \code{.cxd} file will be deleted after successful conversion.
 Default: \code{FALSE}}
 
 \item{mc.cores}{Number of cores to be used when more than one xd file is given.}
@@ -38,6 +38,6 @@ Default: \code{FALSE}}
 returns nothing (NULL)
 }
 \description{
-Function uses bftools to convert \code{cxd} files to \code{avi} and ffmpeg to 
+Function uses bftools to convert \code{cxd} files to \code{avi} and ffmpeg to
 compress these to lossles avi
 }

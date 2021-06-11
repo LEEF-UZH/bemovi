@@ -11,7 +11,7 @@
 #'   Default is \code{"trajectory"}, other useful might be \code{"species"}
 #' @param ffmpeg command to run ffmpeg. The default is \code{par_ffmpeg()}.  It can include a path.
 #' @param master name of the master file. Defaults to \code{par_master()}
-#' @param overlay.type option for the overlays. Overlays can either be shown as
+#' @param overlay.type option for the overlays. Overlays can either be shown as \code{"label"}, \code{"circle"} or \code{"both"}
 #' @param mc.cores number of cores toi be used for parallel execution. Defaults to \code{par_mac.cores()}
 #' @return returns invisibly \code{NULL}
 #' @importFrom data.table fwrite
@@ -36,14 +36,8 @@ create_overlays_subtitle <- function(
 ) {
 
   # Check if overlay type is valid
-  if (!(overlay.type %in% c("circle", "number", "both"))) {
-    stop("Wrong overlay type specified. Please choose 'circle', 'number', or 'both'")
-  }
-
-
-  #Check if overlay type is valid
-  if (! overlay.type %in% c("circle", "number", "both")) {
-    stop("Wrong overlay type specified. Please choose 'circle', 'number', or 'both'")
+  if (!(overlay.type %in% c("circle", "label", "both"))) {
+    stop("Wrong overlay type specified. Please choose 'circle', 'label', or 'both'")
   }
 
   traj.data <- readRDS(file = file.path(to.data, merged.data.folder, master))
@@ -134,7 +128,7 @@ create_overlays_subtitle <- function(
     "Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour,",
     " Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle,",
     " BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding", "\n",
-    "Style: Numbers,Arial,", font_size, ",65535,65535,65535,65535,0,0,0,0,100,100,0,0.00,1,1,0,2,0,0,0,0", "\n",
+    "Style: Label,Arial,", font_size, ",65535,65535,65535,65535,0,0,0,0,100,100,0,0.00,1,1,0,2,0,0,0,0", "\n",
     "Style: Circle,Arial,", circle_size, ",&H0000FF,&H0000FF,&H0000FF,&H0000FF,0,0,0,0,100,100,0,0.00,1,1,0,2,0,0,0,0", "\n",
     "\n",
     "[Events]", "\n",
@@ -142,9 +136,9 @@ create_overlays_subtitle <- function(
   )
 
   # Generate a subtitle line for each observation
-  traj.data$subtitle_number <- paste0(
+  traj.data$subtitle_label <- paste0(
     "Dialogue: 2,0:00:", sprintf("%05.2f", traj.data$starttime), ",0:00:", sprintf("%05.2f", traj.data$endtime),
-    ",Numbers,,0000,0000,0000,,",
+    ",Label,,0000,0000,0000,,",
     "{\\pos(",
     abs(round(traj.data$X)), ", ",
     abs(round(traj.data$Y)),
@@ -179,15 +173,15 @@ create_overlays_subtitle <- function(
           traj.data[traj_id[[1]], "header"][[1]],
           unlist(traj.data[traj_id, "subtitle_circle"])
         )
-      } else if (overlay.type == "number") {
+      } else if (overlay.type == "label") {
         ssa <- c(
           traj.data[traj_id[[1]], "header"][[1]],
-          unlist(traj.data[traj_id, "subtitle_number"])
+          unlist(traj.data[traj_id, "subtitle_label"])
         )
       } else if (overlay.type == "both") {
         ssa <- c(
           traj.data[traj_id[[1]], "header"][[1]],
-          unlist(traj.data[traj_id, "subtitle_number"]),
+          unlist(traj.data[traj_id, "subtitle_label"]),
           unlist(traj.data[traj_id, "subtitle_circle"])
         )
       }
