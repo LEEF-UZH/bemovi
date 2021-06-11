@@ -454,7 +454,7 @@ convert_cxd_to_avi <- function (
     gsub("\\.cxd$", ".avi", basename(cxd_file))
   )
   tiff_dir_tmp <- file.path(tmpdir, "tiff")
-  dir.create(tiff_dir_tmp)
+  dir.create(tiff_dir_tmp, showWarnings = FALSE)
   avi_tmp <- file.path(tmpdir, basename(avi_file))
   cxd_metadata_tmp <- file.path(tmpdir, basename(cxd_metadata_file))
 
