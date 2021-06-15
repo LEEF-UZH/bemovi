@@ -519,12 +519,12 @@ convert_cxd_to_avi <- function (
   if (delete_cxd) {
     message("      Deleting ", cxd_file)
     unlink(cxd_file)
-    unlink(
-      x = tmpdir,
-      recursive = TRUE
-    )
-    
   }
+  unlink(
+    x = tmpdir,
+    recursive = TRUE
+  )
+  
   message("    END converting ", cxd_file)
 
   invisible(NULL)
