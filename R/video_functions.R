@@ -439,28 +439,24 @@ convert_cxd_to_avi <- function (
 # The magic begins here ---------------------------------------------------
 
   message("    BEGIN converting ", basename(cxd_file))
-  cxd_metadata_file <- file.path(
-    avi_dir,
-    paste0(basename(cxd_file), ".metadata")
-  )
-
-
-  tmpdir <- file.path(dirname(avi_dir), "tmp") # tempfile()
-
+  
+  tmpdir <- file.path(avi_dir, "tmp_convert", basename(cxd_file)) # tempfile()
   dir.create(tmpdir, showWarnings = FALSE, recursive = TRUE)
+  tiff_dir_tmp <- file.path(tmpdir, "tiff")
+  dir.create(tiff_dir_tmp, showWarnings = FALSE)
 
   avi_file <- file.path(
     avi_dir,
     gsub("\\.cxd$", ".avi", basename(cxd_file))
   )
-  tiff_dir_tmp <- file.path(tmpdir, "tiff")
-  dir.create(tiff_dir_tmp, showWarnings = FALSE)
   avi_tmp <- file.path(tmpdir, basename(avi_file))
-  cxd_metadata_tmp <- file.path(tmpdir, basename(cxd_metadata_file))
 
-  on.exit({
-    unlink(tmpdir)
-  })
+    cxd_metadata_file <- file.path(
+    avi_dir,
+    paste0(basename(cxd_file), ".metadata")
+  )
+  cxd_metadata_tmp <- file.path(tmpdir, basename(cxd_metadata_file))
+  
 
   message("      Extracting Metadata from ", cxd_file, " -->> ", cxd_metadata_tmp)
   arguments <- paste0(
@@ -497,7 +493,7 @@ convert_cxd_to_avi <- function (
     " -vcodec png",
     " -vtag 'PNG '",
     " -compression_level ", compression_level,
-    " ", avi_file
+    " ", avi_tmp
   )
   system2(
     command = ffmpeg,
@@ -512,13 +508,22 @@ convert_cxd_to_avi <- function (
   #   to = avi_file
   # )
   message("      Moving ", basename(cxd_metadata_tmp), " -->> ", basename(cxd_metadata_file))
-  file.copy(
+  file.rename(
     from = cxd_metadata_tmp,
     to = cxd_metadata_file
+  )
+  file.rename(
+    from = avi_tmp,
+    to = avi_file
   )
   if (delete_cxd) {
     message("      Deleting ", cxd_file)
     unlink(cxd_file)
+    unlink(
+      x = tmpdir,
+      recursive = TRUE
+    )
+    
   }
   message("    END converting ", cxd_file)
 
