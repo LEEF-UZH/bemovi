@@ -25,15 +25,15 @@ Create_folder_structure <- function(
   merged.data.folder = par_merged.data.folder(),
   ijmacs.folder = par_ijmacs.folder()
 ) {
-  dir.create( to.data )
-  dir.create( file.path( to.data, video.description.folder ), showWarnings = FALSE )
-  dir.create( file.path( to.data, raw.video.folder ), showWarnings = FALSE )
-  dir.create( file.path( to.data, particle.data.folder ), showWarnings = FALSE )
-  dir.create( file.path( to.data, trajectory.data.folder), showWarnings = FALSE )
-  dir.create( file.path( to.data, temp.overlay.folder ), showWarnings = FALSE )
-  dir.create( file.path( to.data, overlay.folder ), showWarnings = FALSE )
-  dir.create( file.path( to.data, merged.data.folder ), showWarnings = FALSE )
-  dir.create( file.path( to.data, ijmacs.folder ), showWarnings = FALSE )
+  dir.create( to.data, recursive = TRUE, showWarnings = FALSE  )
+  dir.create( file.path( to.data, video.description.folder ), recursive = TRUE, showWarnings = FALSE )
+  dir.create( file.path( to.data, raw.video.folder ), recursive = TRUE, showWarnings = FALSE )
+  dir.create( file.path( to.data, particle.data.folder ), recursive = TRUE, showWarnings = FALSE )
+  dir.create( file.path( to.data, trajectory.data.folder), recursive = TRUE, showWarnings = FALSE )
+  dir.create( file.path( to.data, temp.overlay.folder ), recursive = TRUE, showWarnings = FALSE )
+  dir.create( file.path( to.data, overlay.folder ), recursive = TRUE, showWarnings = FALSE )
+  dir.create( file.path( to.data, merged.data.folder ), recursive = TRUE, showWarnings = FALSE )
+  dir.create( file.path( to.data, ijmacs.folder ), recursive = TRUE, showWarnings = FALSE )
   invisible(TRUE)
 }
   
